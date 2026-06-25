@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CurveType Onboarding - Sculpt Your Words</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --primary-glow: rgba(255, 107, 0, 0.2);
+            --bg-color: #0D0D0D;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #f8ddd2;
+            font-family: 'Outfit', sans-serif;
+            overflow: hidden;
+        }
+
+        .glow-button {
+            box-shadow: 0px 4px 20px var(--primary-glow);
+            transition: all 0.3s ease;
+        }
+
+        .glow-button:hover {
+            box-shadow: 0px 6px 25px rgba(255, 107, 0, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .glow-button:active {
+            transform: scale(0.95);
+        }
+
+        .arc-indicator {
+            border: 2px solid #ff6b00;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            transform: rotate(-45deg);
+        }
+
+        /* Custom rotation animation for the curved text overlay */
+        @keyframes slowRotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .rotating-text-overlay {
+            animation: slowRotate 20s linear infinite;
+        }
+
+        .parallax-container {
+            perspective: 1000px;
+        }
+
+        .glass-blur {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#ffdad6",
+                        "outline": "#a98a7d",
+                        "outline-variant": "#5a4136",
+                        "on-surface": "#f8ddd2",
+                        "secondary-fixed": "#ffdcbe",
+                        "on-secondary-container": "#fff7f2",
+                        "surface-variant": "#41312a",
+                        "surface": "#1d100a",
+                        "tertiary-fixed": "#d0e4ff",
+                        "on-tertiary-fixed": "#001d35",
+                        "surface-container-lowest": "#170b06",
+                        "surface-container": "#2b1c16",
+                        "surface-container-low": "#261812",
+                        "surface-container-highest": "#41312a",
+                        "primary-fixed": "#ffdbcc",
+                        "on-secondary-fixed": "#2d1600",
+                        "on-surface-variant": "#e2bfb0",
+                        "tertiary": "#9ccaff",
+                        "on-secondary": "#4a2800",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "inverse-on-surface": "#3d2d26",
+                        "background": "#0D0D0D",
+                        "on-error": "#690005",
+                        "surface-bright": "#46362e",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#059eff",
+                        "on-tertiary-fixed-variant": "#00497b",
+                        "surface-container-high": "#362720",
+                        "on-primary-container": "#572000",
+                        "on-primary-fixed": "#351000",
+                        "secondary-container": "#a76100",
+                        "secondary": "#ffb871",
+                        "primary-fixed-dim": "#ffb693",
+                        "on-background": "#f8ddd2",
+                        "surface-dim": "#1d100a",
+                        "secondary-fixed-dim": "#ffb871",
+                        "inverse-surface": "#f8ddd2",
+                        "on-primary": "#561f00",
+                        "on-tertiary-container": "#003357",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#6a3c00",
+                        "surface-tint": "#ffb693",
+                        "inverse-primary": "#a04100",
+                        "primary-container": "#ff6b00",
+                        "on-tertiary": "#003257",
+                        "tertiary-fixed-dim": "#9ccaff",
+                        "primary": "#ffb693"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "unit": "4px",
+                        "gutter": "20px",
+                        "xs": "4px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "xl": "40px",
+                        "md": "16px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Outfit"],
+                        "headline-lg": ["Outfit"],
+                        "label-lg": ["Outfit"],
+                        "body-lg": ["Outfit"],
+                        "headline-md": ["Outfit"],
+                        "body-md": ["Outfit"],
+                        "display-xl": ["Outfit"],
+                        "display-xl-mobile": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-xl": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "display-xl-mobile": ["40px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-0 m-0 select-none">
+<!-- Onboarding Canvas -->
+<main class="relative w-full h-screen max-w-lg bg-background overflow-hidden flex flex-col shadow-2xl md:h-[795px] md:rounded-[40px] md:border md:border-surface-variant">
+<!-- Header Controls -->
+<div class="absolute top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 pointer-events-none">
+<div class="flex items-center gap-2 pointer-events-auto">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">architecture</span>
+<span class="font-display-xl-mobile text-[24px] font-extrabold tracking-tight text-on-surface">CurveType</span>
+</div>
+<button class="pointer-events-auto font-label-lg text-label-lg text-on-surface-variant hover:text-primary-container transition-colors uppercase">
+                Skip
+            </button>
+</div>
+<!-- Main Visual Content -->
+<div class="flex-1 relative w-full overflow-hidden flex items-center justify-center">
+<!-- Atmospheric Shader Background -->
+
+<!-- High-Fidelity Landscape Container -->
+<div class="relative w-[85%] aspect-[4/5] rounded-[32px] overflow-hidden border border-surface-variant group shadow-2xl transition-transform duration-700 hover:scale-[1.02]">
+<div class="absolute inset-0 z-0 scale-110">
+<img class="w-full h-full object-cover" data-alt="A hyper-realistic cinematic landscape of a serene Nordic fjord at twilight. The water is mirror-still, reflecting towering black basalt mountains and a deep indigo sky. High-contrast orange light beams pierce through a heavy mist, creating a dramatic and premium atmosphere. The overall style is dark, sleek, and atmospheric, perfectly matching a professional creative studio aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1p7lpgqJmludgtuyLzyeGFM4LFTHLeZ98pQVyfUbphgZS2rYarizgtSqQQtPtCj-VQyF_VEz4IVlay300u_MlNjc6iIht6n2-kwb-Uw39qN0lMmOOER8BYJ_IAW1iDOuQ3QYJ7VS7pw2YdI9xlCNAO9-SoPwTUJDvY_BY9Jg_DIYLA7sxFTDz8Ek0FdCi4vBzebtfhuiO5QFpY1v4AUYMj60rlDBYJG39qkZAlCQFM762w1x529JTseeaO-zc3hZqv5c20aUUhGnX"/>
+</div>
+<!-- Overlay Gradient -->
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent z-10"></div>
+<!-- Circular Curved Text Overlay -->
+<div class="absolute inset-0 flex items-center justify-center z-20 overflow-hidden">
+<div class="rotating-text-overlay relative w-full h-full flex items-center justify-center scale-90 md:scale-100">
+<svg class="w-full h-full" viewbox="0 0 300 300">
+<defs>
+<path d="M 150, 150 m -100, 0 a 100,100 0 1,1 200,0 a 100,100 0 1,1 -200,0" id="circlePath"></path>
+</defs>
+<text class="fill-primary-container font-display-xl-mobile text-[14px] font-extrabold tracking-[0.2em] uppercase">
+<textpath xlink:href="#circlePath">
+                                    Sculpt Your Words • Sculpt Your Words • Sculpt Your Words • 
+                                </textpath>
+</text>
+</svg>
+<!-- Center Focus Indicator -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-50">
+<div class="w-24 h-24 rounded-full border border-primary-container/30 flex items-center justify-center">
+<div class="w-16 h-16 rounded-full border-2 border-primary-container glow-button flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container scale-125">gesture</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Interaction Hint -->
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2">
+<div class="w-12 h-1 bg-primary-container/30 rounded-full overflow-hidden">
+<div class="w-1/2 h-full bg-primary-container"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Interactive Canvas</span>
+</div>
+</div>
+</div>
+<!-- Content & Controls Footer -->
+<section class="bg-background relative z-40 px-margin-mobile pt-lg pb-xl flex flex-col items-center text-center">
+<h1 class="font-display-xl-mobile text-display-xl-mobile text-on-surface mb-md">
+                Sculpt Your Words
+            </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[280px] mb-xl leading-relaxed">
+                Curve, rotate, and style your text in real time with <span class="text-primary-container font-bold">intuitive gestures</span>.
+            </p>
+<!-- Pagination Dots -->
+<div class="flex gap-3 mb-xl">
+<div class="w-2 h-2 rounded-full bg-primary-container glow-button"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+</div>
+<!-- Primary Action -->
+<div class="w-full max-w-[200px]">
+<button class="glow-button w-full bg-primary-container text-on-primary font-label-lg text-label-lg h-14 rounded-[20px] flex items-center justify-center gap-2 group">
+                    Next
+                    <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Decorative UI Element -->
+<div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-container to-transparent opacity-30"></div>
+</main>
+<!-- Background Atmospheric Touches -->
+<div class="fixed inset-0 pointer-events-none -z-10 bg-background overflow-hidden">
+<div class="absolute top-1/4 -right-20 w-80 h-80 rounded-full bg-primary-container/5 blur-[120px]"></div>
+<div class="absolute bottom-1/4 -left-20 w-80 h-80 rounded-full bg-primary-container/5 blur-[120px]"></div>
+</div>
+<script>
+        // Micro-interaction for tilt effect on the card
+        const card = document.querySelector('.relative.w-\\[85\\%\\]');
+        const container = card.parentElement;
+
+        container.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+        });
+
+        container.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
+        });
+
+        // Simple button active state feedback
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            btn.addEventListener('touchstart', () => {
+                btn.style.transform = 'scale(0.95)';
+            });
+            btn.addEventListener('touchend', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

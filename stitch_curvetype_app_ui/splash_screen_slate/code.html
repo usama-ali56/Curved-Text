@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>CurveType | Professional Creative Studio</title>
+<!-- Google Fonts: Outfit for Headings, Inter for Body -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#41485e",
+                    "surface-container-high": "#dce9ff",
+                    "primary-container": "#4f46e5",
+                    "surface-container-low": "#eff4ff",
+                    "inverse-primary": "#c3c0ff",
+                    "tertiary-container": "#586076",
+                    "secondary-fixed-dim": "#c0c1ff",
+                    "surface-tint": "#4d44e3",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#d3e4fe",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "inverse-surface": "#213145",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "on-primary-fixed": "#0f0069",
+                    "outline-variant": "#c7c4d8",
+                    "on-primary-container": "#dad7ff",
+                    "primary": "#3525cd",
+                    "on-background": "#0b1c30",
+                    "surface-dim": "#cbdbf5",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "secondary-fixed": "#e1e0ff",
+                    "tertiary-fixed": "#dae2fd",
+                    "surface-variant": "#d3e4fe",
+                    "on-surface": "#0b1c30",
+                    "surface": "#f8f9ff",
+                    "primary-fixed": "#e2dfff",
+                    "on-secondary-fixed-variant": "#2f2ebe",
+                    "surface-bright": "#f8f9ff",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#6063ee",
+                    "on-secondary-fixed": "#07006c",
+                    "secondary": "#4648d4",
+                    "outline": "#777587",
+                    "on-tertiary-container": "#d4dbf5",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed": "#131b2e",
+                    "on-surface-variant": "#464555",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "on-primary": "#ffffff",
+                    "surface-container": "#e5eeff",
+                    "background": "#f8f9ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "sm": "8px",
+                    "base": "4px",
+                    "margin-mobile": "20px",
+                    "lg": "24px",
+                    "gutter": "16px",
+                    "md": "16px",
+                    "margin-tablet": "40px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "caption": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "title-md": ["Outfit"],
+                    "headline-lg": ["Outfit"],
+                    "headline-lg-mobile": ["Outfit"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Outfit"],
+                    "headline-xl": ["Outfit"],
+                    "title-lg": ["Outfit"],
+                    "label-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "caption": ["11px", {"lineHeight": "14px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "title-md": ["18px", {"lineHeight": "24px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #FFFFFF;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Subtle Fade-In Animation for Content */
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Continuous Loading Shimmer */
+        .loader-bar {
+            width: 140px;
+            height: 3px;
+            background-color: #F1F5F9;
+            border-radius: 99px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-progress {
+            width: 40%;
+            height: 100%;
+            background-color: #3525cd;
+            position: absolute;
+            animation: loadingMove 1.5s infinite ease-in-out;
+            border-radius: 99px;
+        }
+
+        @keyframes loadingMove {
+            0% { left: -40%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        /* Logo Animation */
+        .logo-mark {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .logo-mark:active {
+            transform: scale(0.92);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-lowest font-body-md text-on-surface">
+<main class="relative flex flex-col items-center justify-center w-full h-full p-margin-mobile">
+<!-- Logo Section: Identity Logic from JSON -->
+<div class="fade-in flex flex-col items-center gap-base">
+<div class="relative mb-md">
+<!-- Abstract Logo Shape representing 'Curve' -->
+<div class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center shadow-sm logo-mark">
+<span class="material-symbols-outlined text-white text-[40px]" style="font-variation-settings: 'wght' 600;">
+                        architecture
+                    </span>
+</div>
+<!-- Subtle background glow for premium feel -->
+<div class="absolute -inset-4 bg-primary/5 blur-3xl rounded-full -z-10"></div>
+</div>
+<!-- Brand Typography Anchor -->
+<h1 class="font-headline-md text-headline-md font-bold tracking-tight text-primary">
+                CurveType
+            </h1>
+<p class="font-label-md text-label-md text-on-surface-variant tracking-wide uppercase opacity-60">
+                Creative Studio
+            </p>
+</div>
+<!-- Footer / Loading Area -->
+<div class="absolute bottom-16 flex flex-col items-center gap-lg w-full px-xl">
+<!-- Loading Indicator -->
+<div class="loader-bar">
+<div class="loader-progress"></div>
+</div>
+<!-- Contextual Info -->
+<div class="text-center">
+<p class="font-caption text-caption text-on-surface-variant mb-base opacity-40">
+                    Version 2.4.0
+                </p>
+</div>
+</div>
+<!-- Decorative Background Element (Minimalist Mesh) -->
+<div class="absolute inset-0 pointer-events-none -z-20 overflow-hidden">
+<div class="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-surface-container-high rounded-full blur-[120px] opacity-40"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[30%] h-[30%] bg-primary/5 rounded-full blur-[100px] opacity-30"></div>
+</div>
+</main>
+<!-- Optional micro-interaction script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Simulated loading transition
+            setTimeout(() => {
+                const progress = document.querySelector('.loader-progress');
+                if (progress) {
+                    // Logic for ending splash can be placed here
+                    // e.g., window.location.href = '/home';
+                }
+            }, 3000);
+        });
+
+        // Simple haptic-like effect on logo click for fun
+        const logo = document.querySelector('.logo-mark');
+        logo.addEventListener('click', () => {
+            if ('vibrate' in navigator) {
+                navigator.vibrate(10);
+            }
+        });
+    </script>
+</body></html>

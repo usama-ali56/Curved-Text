@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CurveType Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#ffdad6",
+                        "outline": "#a98a7d",
+                        "outline-variant": "#5a4136",
+                        "on-surface": "#f8ddd2",
+                        "secondary-fixed": "#ffdcbe",
+                        "on-secondary-container": "#fff7f2",
+                        "surface-variant": "#41312a",
+                        "surface": "#1d100a",
+                        "tertiary-fixed": "#d0e4ff",
+                        "on-tertiary-fixed": "#001d35",
+                        "surface-container-lowest": "#170b06",
+                        "surface-container": "#2b1c16",
+                        "surface-container-low": "#261812",
+                        "surface-container-highest": "#41312a",
+                        "primary-fixed": "#ffdbcc",
+                        "on-secondary-fixed": "#2d1600",
+                        "on-surface-variant": "#e2bfb0",
+                        "tertiary": "#9ccaff",
+                        "on-secondary": "#4a2800",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "inverse-on-surface": "#3d2d26",
+                        "background": "#1d100a",
+                        "on-error": "#690005",
+                        "surface-bright": "#46362e",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#059eff",
+                        "on-tertiary-fixed-variant": "#00497b",
+                        "surface-container-high": "#362720",
+                        "on-primary-container": "#572000",
+                        "on-primary-fixed": "#351000",
+                        "secondary-container": "#a76100",
+                        "secondary": "#ffb871",
+                        "primary-fixed-dim": "#ffb693",
+                        "on-background": "#f8ddd2",
+                        "surface-dim": "#1d100a",
+                        "secondary-fixed-dim": "#ffb871",
+                        "inverse-surface": "#f8ddd2",
+                        "on-primary": "#561f00",
+                        "on-tertiary-container": "#003357",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#6a3c00",
+                        "surface-tint": "#ffb693",
+                        "inverse-primary": "#a04100",
+                        "primary-container": "#ff6b00",
+                        "on-tertiary": "#003257",
+                        "tertiary-fixed-dim": "#9ccaff",
+                        "primary": "#ffb693"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "unit": "4px",
+                        "gutter": "20px",
+                        "xs": "4px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "xl": "40px",
+                        "md": "16px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Outfit"],
+                        "headline-lg": ["Outfit"],
+                        "label-lg": ["Outfit"],
+                        "body-lg": ["Outfit"],
+                        "headline-md": ["Outfit"],
+                        "body-md": ["Outfit"],
+                        "display-xl": ["Outfit"],
+                        "display-xl-mobile": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-xl": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "display-xl-mobile": ["40px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0D0D0D;
+            color: #f8ddd2;
+            font-family: 'Outfit', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-orange {
+            box-shadow: 0px 4px 20px rgba(255, 107, 0, 0.2);
+        }
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .stagger-in {
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="pb-24">
+<!-- TopAppBar -->
+<header class="bg-background border-b border-surface-variant flex justify-between items-center w-full px-margin-mobile h-16 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-display-xl-mobile text-display-xl-mobile font-extrabold text-primary">CurveType</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up portrait of a stylish graphic designer with a modern haircut, wearing thick black-rimmed glasses, looking directly into the camera. The background is a blurred studio environment with warm orange ambient lighting hitting the side of their face. High-contrast dark-mode photography style with professional lighting and sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKuYxEJKqjrixU6aCrLoWMteo1mGNu50qePOGF4fNrMc3XUKEDEh_SvK7mIbxojzuYPd4LtTwh-zeOl5mnVpuUovHUKhxJI2E5yoJ5h_WCJ3w2LbsQmKGoQrK8oZjvXqACONCzzAzRvmvl9jANLUaNJRDOu95wpqUbl4Tuvgpp15koJ_ZGj2P8urD7grxO-gpbkvt5A_1envr4DUIgNSGrczD628leOj7E3dPOWgQnUQmnzFdqhkbDHEF5c-_-evt-64MJ7YKbA_we"/>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pt-8">
+<!-- Welcome Message -->
+<section class="mb-10 stagger-in" style="animation-delay: 0.1s;">
+<p class="text-primary font-label-lg text-label-lg uppercase tracking-widest mb-2">Good Evening, Creative</p>
+<h2 class="text-white font-headline-lg text-headline-lg">Your Workspace</h2>
+</section>
+<!-- Hero Actions Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<!-- Create New Project Card -->
+<div class="md:col-span-2 bg-[#FF6B00] rounded-[20px] p-8 glow-orange flex flex-col justify-between min-h-[280px] cursor-pointer hover:scale-[1.01] transition-all duration-300 group stagger-in" style="animation-delay: 0.2s;">
+<div class="flex justify-between items-start">
+<div class="bg-white/20 p-4 rounded-xl backdrop-blur-md">
+<span class="material-symbols-outlined text-white text-4xl">add_box</span>
+</div>
+<span class="material-symbols-outlined text-white/50 text-6xl opacity-20 group-hover:opacity-40 transition-opacity">architecture</span>
+</div>
+<div>
+<h3 class="text-white font-headline-lg text-headline-lg mb-2">Create New Project</h3>
+<p class="text-white/80 font-body-md text-body-md max-w-md">Start a new canvas and bring your typography to life with our advanced bezier curve engine.</p>
+</div>
+</div>
+<!-- Capture Photo Card -->
+<div class="bg-[#1A1A1A] border border-[#333333] rounded-[20px] p-8 flex flex-col justify-between min-h-[280px] cursor-pointer hover:bg-[#262626] transition-all duration-300 group stagger-in" style="animation-delay: 0.3s;">
+<div class="flex justify-between items-start">
+<div class="bg-primary/10 p-4 rounded-xl">
+<span class="material-symbols-outlined text-primary text-4xl">photo_camera</span>
+</div>
+</div>
+<div>
+<h3 class="text-white font-headline-md text-headline-md mb-2">Capture Photo</h3>
+<p class="text-on-surface-variant font-body-md text-body-md">Scan real-world text and curves to vectorize instantly.</p>
+</div>
+<div class="mt-4 flex -space-x-2">
+<div class="w-8 h-8 rounded-full border border-[#1A1A1A] bg-[#333333] flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-primary">auto_fix_high</span>
+</div>
+<div class="w-8 h-8 rounded-full border border-[#1A1A1A] bg-[#333333] flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-primary">detector_offline</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Projects Section -->
+<section class="stagger-in" style="animation-delay: 0.4s;">
+<div class="flex justify-between items-end mb-6">
+<div>
+<h3 class="text-white font-headline-md text-headline-md">Recent Projects</h3>
+<p class="text-on-surface-variant font-label-lg text-label-lg">Pick up where you left off</p>
+</div>
+<button class="text-primary font-label-lg text-label-lg hover:underline transition-all">View All</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Project Card 1 -->
+<div class="bg-[#1A1A1A] border border-[#333333] rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 group">
+<div class="h-48 w-full relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A macro shot of vibrant orange abstract 3D typography curves on a dark charcoal background. The lighting is cinematic with deep shadows and sharp highlights on the edges of the letterforms. The style is modern, professional, and high-performance digital art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4ZX0wjHYo3BBbW_GUCfPGANnvhiVf5lNy89f9LAevmKHn6voYyj4hJUSnH1V0HZSOya51CDh7o4Q5RmUHccrUovRLM6W2ZNGK8YONEZm9INe_3bnq5Ezm10QRE9w0aRj9YyN4WCrtWd27Q5Nzjrj2RTU2ljReJT_jjURpFDIbeWMsbDZMWdSEvEndARepkrQ1wMFUopHyKph1eVpzZfegsm77-6bNvVQyWkn3ZvwxSlz741vvsqC3tN0elUAVYJ6vfXAS35myzD1Y"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] to-transparent opacity-60"></div>
+<div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+<span class="text-white font-label-sm text-label-sm">2h ago</span>
+</div>
+</div>
+<div class="p-5 flex justify-between items-center">
+<div>
+<h4 class="text-white font-label-lg text-label-lg group-hover:text-primary transition-colors">Neo-Flow Brand</h4>
+<p class="text-on-surface-variant text-[12px]">Typography Branding</p>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">folder_open</span>
+</div>
+</div>
+<!-- Project Card 2 -->
+<div class="bg-[#1A1A1A] border border-[#333333] rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 group">
+<div class="h-48 w-full relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Close up of a digital canvas showing complex bezier curve paths for a logo design. The background is a dark grid and the lines are glowing orange and white. The aesthetic is precision-focused, technical, and clean, mimicking a high-end vector editing software interface in dark mode." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXxdGvcUre8LmsZTFAckrTFlt0FlXw_3TqWm5VYZ4rQPKT_CReWCjcXEG7wbqNIRbB1iIc21G2go04PB_HMwomx572HdK1HsEKUKF1nPfL4lZsOYCbO-cGLSLic-LFisFpetiFHVpl6JlDa8Y4DnpeWKZFhg4E33WACENhXYrYelVixPChYCpmxOMXgJytTybHJhHzf_U8CFmiJ81CRHoUyBy9GDVaYOZwSoF5XwNgIzR8LEMmQ2q2SdGPCyp3wdpOZF3NI_V__iwh"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] to-transparent opacity-60"></div>
+<div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+<span class="text-white font-label-sm text-label-sm">Yesterday</span>
+</div>
+</div>
+<div class="p-5 flex justify-between items-center">
+<div>
+<h4 class="text-white font-label-lg text-label-lg group-hover:text-primary transition-colors">Arc Vector Set</h4>
+<p class="text-on-surface-variant text-[12px]">Icon Illustration</p>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">folder_open</span>
+</div>
+</div>
+<!-- Project Card 3 -->
+<div class="bg-[#1A1A1A] border border-[#333333] rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 group">
+<div class="h-48 w-full relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Futuristic social media post design featuring bold, high-contrast orange text against a deep black background. The layout uses asymmetric elements and sleek, thin white lines for a professional, cutting-edge studio look. Dramatic lighting and rich shadows emphasize the depth and texture of the digital workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTlUm7rrvbZQX5gU4CjHDaLy1jfzG6S33nAbHol-d-wZn9EkgUH6lCQSsk6tlQozqXH7LfMTpcGrFNohYXL8gvAyBikTVlpsMj1cUmgowQLqMHpjTrz_wEExghk_jywTuc95-gQy577EbkLu3VezWC8HdCAY-GdL7xqiygIc9fBo3LaVn12MhD2yUorsIopGiR7Ybv4uUBrGrocruSJ9ZDo5jbY4-DRdfFkUwBWpfZBTNEEzwDNOMkWCoGvy52AN8kb9qRReH0cxAB"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] to-transparent opacity-60"></div>
+<div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+<span class="text-white font-label-sm text-label-sm">Jan 12</span>
+</div>
+</div>
+<div class="p-5 flex justify-between items-center">
+<div>
+<h4 class="text-white font-label-lg text-label-lg group-hover:text-primary transition-colors">Social Pack V2</h4>
+<p class="text-on-surface-variant text-[12px]">Media Assets</p>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">folder_open</span>
+</div>
+</div>
+<!-- Project Card 4 -->
+<div class="bg-[#1A1A1A] border border-[#333333] rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 group">
+<div class="h-48 w-full relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A minimalist architectural sketch rendered in bright orange neon lines on a pitch-black surface. The composition is dynamic and focuses on the intersection of curves and straight edges. The image has a studio-quality feel with high-contrast lighting and a sophisticated, tech-oriented aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-Xm8Blocx_Yx9wSrwfWrk5UJGdt2ktqGLVDDHDZgERjcO0PVqqrukwR6D7-VubB6wRfLNu7F5IuEb-DpoE4lpVbtMqi2Q8GmwGHCQKjoxRPQd1OjL5vP0EYt7Re4WjWT4G-D5swObsrZVQ2R3mGD5eZWs7RBixciJ05kxadACOgqoOzR-BSxzLv5g__BXSx2xu4-8Oy4z3dYzyTyqY7C4teWVRuv-1L202GLx8Rdu9UErBalJM0KM9XD5CFSznlg0EyhLgBABaJXI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] to-transparent opacity-60"></div>
+<div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+<span class="text-white font-label-sm text-label-sm">Jan 08</span>
+</div>
+</div>
+<div class="p-5 flex justify-between items-center">
+<div>
+<h4 class="text-white font-label-lg text-label-lg group-hover:text-primary transition-colors">Curve Thesis</h4>
+<p class="text-on-surface-variant text-[12px]">Experimental Art</p>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">folder_open</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Insights Banner -->
+<section class="mt-12 stagger-in" style="animation-delay: 0.5s;">
+<div class="glass-panel rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-primary opacity-5 blur-[100px] rounded-full"></div>
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-3xl">insights</span>
+</div>
+<div>
+<h4 class="text-white font-headline-md text-headline-md leading-tight">Weekly Performance</h4>
+<p class="text-on-surface-variant font-body-md text-body-md">You've completed 12% more curves this week than the last. Keep creating!</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="text-center px-4">
+<p class="text-primary font-display-xl-mobile text-[24px] font-bold">24</p>
+<p class="text-on-surface-variant text-label-sm uppercase">Active</p>
+</div>
+<div class="w-[1px] h-12 bg-white/10"></div>
+<div class="text-center px-4">
+<p class="text-white font-display-xl-mobile text-[24px] font-bold">158</p>
+<p class="text-on-surface-variant text-label-sm uppercase">Total</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface-container-low shadow-[0px_-4px_20px_rgba(255,107,0,0.1)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-primary font-bold bg-secondary-container/10 rounded-xl px-3 py-1 scale-110 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">edit</span>
+<span class="font-label-sm text-label-sm mt-1">Edit</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-label-sm text-label-sm mt-1">Projects</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm mt-1">Settings</span>
+</a>
+</nav>
+<!-- Micro-interactions Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hover effect for the Create New Project card shadow intensification
+            const heroCard = document.querySelector('.bg-\\[\\#FF6B00\\]');
+            if (heroCard) {
+                heroCard.addEventListener('mouseenter', () => {
+                    heroCard.style.boxShadow = '0px 8px 30px rgba(255, 107, 0, 0.4)';
+                });
+                heroCard.addEventListener('mouseleave', () => {
+                    heroCard.style.boxShadow = '0px 4px 20px rgba(255, 107, 0, 0.2)';
+                });
+            }
+
+            // Simple click effect for cards
+            const cards = document.querySelectorAll('.rounded-\\[20px\\], .rounded-xl');
+            cards.forEach(card => {
+                card.addEventListener('mousedown', () => {
+                    card.style.transform = 'scale(0.98)';
+                });
+                card.addEventListener('mouseup', () => {
+                    card.style.transform = '';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                });
+            });
+        });
+    </script>
+</body></html>

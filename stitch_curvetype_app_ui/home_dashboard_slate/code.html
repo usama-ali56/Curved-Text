@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>CurveType | Home Dashboard</title>
+<!-- Google Fonts: Outfit for headlines, Inter for body -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#41485e",
+                    "surface-container-high": "#dce9ff",
+                    "primary-container": "#4f46e5",
+                    "surface-container-low": "#eff4ff",
+                    "inverse-primary": "#c3c0ff",
+                    "tertiary-container": "#586076",
+                    "secondary-fixed-dim": "#c0c1ff",
+                    "surface-tint": "#4d44e3",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#d3e4fe",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "inverse-surface": "#213145",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "on-primary-fixed": "#0f0069",
+                    "outline-variant": "#c7c4d8",
+                    "on-primary-container": "#dad7ff",
+                    "primary": "#3525cd",
+                    "on-background": "#0b1c30",
+                    "surface-dim": "#cbdbf5",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "secondary-fixed": "#e1e0ff",
+                    "tertiary-fixed": "#dae2fd",
+                    "surface-variant": "#d3e4fe",
+                    "on-surface": "#0b1c30",
+                    "surface": "#f8f9ff",
+                    "primary-fixed": "#e2dfff",
+                    "on-secondary-fixed-variant": "#2f2ebe",
+                    "surface-bright": "#f8f9ff",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#6063ee",
+                    "on-secondary-fixed": "#07006c",
+                    "secondary": "#4648d4",
+                    "outline": "#777587",
+                    "on-tertiary-container": "#d4dbf5",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed": "#131b2e",
+                    "on-surface-variant": "#464555",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "on-primary": "#ffffff",
+                    "surface-container": "#e5eeff",
+                    "background": "#f8f9ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "12px",
+                    "2xl": "16px",
+                    "3xl": "24px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "sm": "8px",
+                    "base": "4px",
+                    "margin-mobile": "20px",
+                    "lg": "24px",
+                    "gutter": "16px",
+                    "md": "16px",
+                    "margin-tablet": "40px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "caption": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "title-md": ["Outfit"],
+                    "headline-lg": ["Outfit"],
+                    "headline-lg-mobile": ["Outfit"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Outfit"],
+                    "headline-xl": ["Outfit"],
+                    "title-lg": ["Outfit"],
+                    "label-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "caption": ["11px", {"lineHeight": "14px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "title-md": ["18px", {"lineHeight": "24px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #F8FAFC;
+            color: #0B1C30;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md pb-24">
+<!-- TopAppBar -->
+<header class="bg-surface shadow-sm fixed top-0 full-width z-40 flex justify-between items-center w-full px-margin-mobile h-14">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container-high transition-colors active:scale-95 duration-150 ease-in-out rounded-full text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">CurveType</h1>
+</div>
+<div class="flex items-center">
+<button class="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container-highest active:scale-95 transition-transform">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a young creative professional with a warm smile. The lighting is soft and natural, emphasizing a bright, light-mode aesthetic. The background is a clean, minimal white studio space that complements the corporate minimalism style. High-quality resolution captures subtle details and professional grooming." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCChn5bPoXeWCuJUDoqCRz56nOAbf_AfAQw0K9PJoKl7K_zOGiiLNmMEW1I8CF5YeCxAo5KGQxK8exUK1H_Un9QuLCtOZ4tHS-vNlAMkX6XAtuyHMDmVQsnPbS_obPGxF_7BUxOxUGEs4jGaHR_PsegLEZUP1OEYDYOm-OvSMSyADkTy3Zp4qLMGCT6S_Bu9mg9AQ-cjwcc7L_9jkJNZa6ZanvJtFitQNgiwmwOZ_h7MkqRnwyNEwMez3Ix30dxosbhcclQ_Hga8xG0"/>
+</button>
+</div>
+</header>
+<main class="pt-20 px-margin-mobile max-w-5xl mx-auto space-y-xl">
+<!-- Greeting Section -->
+<section class="animate-in fade-in slide-in-from-bottom-4 duration-700">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Good Morning</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-1">Ready to create something amazing today?</p>
+</section>
+<!-- Main Workspace Card -->
+<section class="relative group">
+<div class="bg-primary-container rounded-2xl p-lg min-h-[180px] flex flex-col justify-between overflow-hidden relative shadow-md active:scale-[0.98] transition-all duration-200 cursor-pointer">
+<!-- Background decoration -->
+<div class="absolute -right-12 -top-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+<div class="absolute right-12 bottom-0 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
+<div class="z-10">
+<span class="material-symbols-outlined text-white text-4xl" style="font-variation-settings: 'wght' 300;">add_circle</span>
+<h3 class="font-headline-md text-headline-md text-white mt-4">Create New Project</h3>
+<p class="font-label-lg text-label-lg text-white/80">Start from a blank canvas or a template</p>
+</div>
+<div class="z-10 mt-6 flex items-center gap-2 text-white font-label-lg">
+<span>Jump in</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+</section>
+<!-- Quick Actions Grid -->
+<section>
+<div class="flex items-center justify-between mb-md">
+<h4 class="font-title-lg text-title-lg text-on-surface">Quick Actions</h4>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<!-- Action: Gallery -->
+<button class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-md flex flex-col items-center gap-2 hover:bg-surface-container-low transition-colors active:scale-95 shadow-sm">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">gallery_thumbnail</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">Gallery</span>
+</button>
+<!-- Action: Camera -->
+<button class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-md flex flex-col items-center gap-2 hover:bg-surface-container-low transition-colors active:scale-95 shadow-sm">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">photo_camera</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">Camera</span>
+</button>
+<!-- Action: Import -->
+<button class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-md flex flex-col items-center gap-2 hover:bg-surface-container-low transition-colors active:scale-95 shadow-sm">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">upload_file</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">Import Project</span>
+</button>
+<!-- Action: Templates -->
+<button class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-md flex flex-col items-center gap-2 hover:bg-surface-container-low transition-colors active:scale-95 shadow-sm">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">auto_awesome_motion</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">Templates</span>
+</button>
+</div>
+</section>
+<!-- Recent Projects -->
+<section>
+<div class="flex items-center justify-between mb-md">
+<h4 class="font-title-lg text-title-lg text-on-surface">Recent Projects</h4>
+<button class="text-primary font-label-lg hover:underline transition-all">View all</button>
+</div>
+<div class="space-y-md">
+<!-- Project Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-md flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer active:scale-[0.99]">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A minimalist logo design for a modern tech startup. The logo features clean vector lines and geometric shapes in a sophisticated palette of deep indigo and soft white. The layout is balanced and symmetric, reflecting a professional SaaS brand identity. Bright, high-key studio lighting ensures the design pop against the clean background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAL5OJJatk4DnfpLw17RkPvuV9WeF7D9sd-wHA06xqXOmtA2oAjG2XVnNM0zFqWP_jD5hfAkLRgS3obMl6TSvHoclpDIJhICX_Ajqc2HoZPvFIMUoeRXUn9hoc6UnkW6fBRGt1Om3S7eK6EQOOnyjYCK9N6Li_CQ2qd8PLwcSkSIDAzdcODcr4IeXtKRNGePM2uMJVkxpzA6xmh-qQm5qzKZjLp-DWAbMdpitlFg0h17sbDr1QfCKve7Lo6rVys6g42FKZA0PXKHsem"/>
+</div>
+<div class="flex-1">
+<h5 class="font-title-md text-title-md text-on-surface">Nova Branding System</h5>
+<p class="font-body-md text-body-md text-on-surface-variant">Edited 2 hours ago</p>
+<div class="flex gap-1 mt-2">
+<span class="bg-surface-container-high text-on-surface-variant text-[10px] px-2 py-0.5 rounded-full font-label-md">Branding</span>
+<span class="bg-surface-container-high text-on-surface-variant text-[10px] px-2 py-0.5 rounded-full font-label-md">Vector</span>
+</div>
+</div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<!-- Project Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-md flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer active:scale-[0.99]">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A stylish social media post graphic with high-contrast typography and elegant layout. The composition uses a modern professional aesthetic with plenty of whitespace and refined color accents in light indigo. The mood is creative and forward-thinking, suitable for a premium digital marketing agency's social feed. Professional lighting and clear resolution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUsLP2LOtOvWW12fSqBWRZwbg5SNttE5XYRVyZkKUOnYPCkZtzunhZgJHN4Iq4llk0Mse_w46IU17_td4WZHx2q4II2QQ7dc-Y9gMWlabY0xaFq5QQyBJPA_tqzfVs8_3wL0a03amEDlXN-SQLSBJzEDAPonMpkVBtkNy-a6f1r6LOFcYbQFyAHDoEQi715jdPN5kvP4VyAk9MYpS7ch8ZyCRllWN3bdIoeefSPpYeu1_HBVSRVMLUF59AaLBSR3p89gx8fRgbR7xv"/>
+</div>
+<div class="flex-1">
+<h5 class="font-title-md text-title-md text-on-surface">Summer Campaign Post</h5>
+<p class="font-body-md text-body-md text-on-surface-variant">Edited yesterday</p>
+<div class="flex gap-1 mt-2">
+<span class="bg-surface-container-high text-on-surface-variant text-[10px] px-2 py-0.5 rounded-full font-label-md">Social Media</span>
+</div>
+</div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<!-- Project Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-md flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer active:scale-[0.99]">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A detailed landing page wireframe for a creative portfolio website. The design uses a clean, modular bento-grid layout with clear visual hierarchy. The style is strictly minimal corporate, featuring light mode colors and precise spacing. High-quality digital render showing UI elements like buttons, cards, and navigation in a professional, focused creative environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDR7NA7MdQOodyjbO50o6HT8M2OX9BxeD6ds_lo6G0rfr7o0NXT8FcWXdKvU8lvItnzBevtvyP2-atAsTkTalSbTQ8qU2CmWTDmnxC4BI99LU4RCHkYQLY-K3P9d09XjBmRX68jtosAQYWOngXPasIDu1GM1oQ1yZ8_o7PnMoA0VYkvMClkpbV-i6I-zskCoTbdB442GwLFDMd125C9wzZ-9rw542r4hqhvF7GVzB4THckQL4iC_YxuuOXaZ9quZ232HVZqs9EchXsh"/>
+</div>
+<div class="flex-1">
+<h5 class="font-title-md text-title-md text-on-surface">Portfolio V2 Wireframes</h5>
+<p class="font-body-md text-body-md text-on-surface-variant">Edited 3 days ago</p>
+<div class="flex gap-1 mt-2">
+<span class="bg-surface-container-high text-on-surface-variant text-[10px] px-2 py-0.5 rounded-full font-label-md">UX/UI</span>
+</div>
+</div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface dark:bg-surface-dim border-t border-outline-variant flex justify-around items-center px-4 py-3 pb-safe shadow-sm">
+<!-- Home Active -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-secondary-container text-on-primary-container dark:text-on-secondary-container rounded-xl px-4 py-1 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined active-icon">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<!-- Editor -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-container-low dark:hover:bg-surface-container-high active:scale-90 transition-transform duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-label-md text-label-md">Editor</span>
+</a>
+<!-- Projects -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-container-low dark:hover:bg-surface-container-high active:scale-90 transition-transform duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-label-md text-label-md">Projects</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-container-low dark:hover:bg-surface-container-high active:scale-90 transition-transform duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for button active states
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                el.style.transform = 'scale(0.96)';
+            });
+            el.addEventListener('mouseup', () => {
+                el.style.transform = 'scale(1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simple scroll event to change header elevation
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                header.classList.add('shadow-md');
+                header.classList.remove('shadow-sm');
+            } else {
+                header.classList.add('shadow-sm');
+                header.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body></html>

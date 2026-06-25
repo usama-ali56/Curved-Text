@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CurveType Splash Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes pulse-glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.4));
+                transform: scale(1);
+            }
+            50% {
+                filter: drop-shadow(0 0 25px rgba(255, 107, 0, 0.7));
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes sweep-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fade-in-up {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        .animate-sweep {
+            animation: sweep-rotate 2s linear infinite;
+        }
+
+        .animate-fade-in {
+            animation: fade-in-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+
+        body {
+            background-color: #0D0D0D;
+            overflow: hidden;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#ffb693",
+                        "primary-container": "#ff6b00",
+                        "on-primary-container": "#572000",
+                        "background": "#0D0D0D",
+                        "surface": "#1d100a",
+                        "on-surface": "#f8ddd2",
+                        "outline": "#a98a7d"
+                    },
+                    "fontFamily": {
+                        "display-xl": ["Outfit"],
+                        "label-sm": ["Outfit"],
+                        "headline-md": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "display-xl": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background">
+<!-- Subtle Background Atmosphere -->
+<div class="fixed inset-0 overflow-hidden pointer-events-none">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#ff6b00] opacity-[0.03] blur-[120px] rounded-full"></div>
+</div>
+<!-- Main Content Wrapper -->
+<main class="flex flex-col items-center justify-between h-full w-full py-24 z-10">
+<!-- Header Spacer -->
+<div class="h-16"></div>
+<!-- Center Identity Section -->
+<div class="flex flex-col items-center">
+<!-- Stylized Brand Logo (C and Sphere) -->
+<div class="relative w-32 h-32 mb-8 animate-fade-in">
+<!-- The 'C' Path Representation -->
+<svg class="w-full h-full text-primary-container animate-pulse-glow" viewbox="0 0 100 100">
+<path d="M75,20 C55,5 25,5 15,35 C5,65 25,95 55,95 C75,95 85,85 90,75" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="8"></path>
+<!-- The Sphere Interaction -->
+<circle cx="70" cy="50" fill="currentColor" r="12"></circle>
+</svg>
+</div>
+<!-- Title -->
+<h1 class="font-display-xl text-display-xl text-white opacity-0 animate-fade-in delay-1">
+                CurveType
+            </h1>
+</div>
+<!-- Footer Section -->
+<div class="flex flex-col items-center gap-6 opacity-0 animate-fade-in delay-2">
+<!-- Loading Indicator -->
+<div class="relative w-12 h-12 flex items-center justify-center">
+<!-- Outer Sweep -->
+<div class="absolute inset-0 border-2 border-white/10 rounded-full"></div>
+<div class="absolute inset-0 border-2 border-transparent border-t-primary-container rounded-full animate-sweep"></div>
+<!-- Inner Precision Dot -->
+<div class="w-1.5 h-1.5 bg-primary-container rounded-full shadow-[0_0_8px_#ff6b00]"></div>
+</div>
+<!-- Footer Text -->
+<p class="font-label-sm text-label-sm text-white/60 tracking-[0.3em] uppercase">
+                Precision Photo Engine
+            </p>
+</div>
+</main>
+<!-- Navigation Shell (Hidden for Splash Screen per "Automatic Suppression" Rule) -->
+<!-- Suppression Logic: Splash screens are Transactional/Linear, hence BottomNavBar and TopAppBar are excluded -->
+<script>
+        // Micro-interaction: Mouse tracking glow
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.createElement('div');
+            // This would normally be handled by a single persistent element for performance, 
+            // but for a splash screen micro-interaction:
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            // Interaction logic could go here to shift the background blur slightly
+        });
+
+        // Simulate transition to app after splash
+        /*
+        setTimeout(() => {
+            document.body.style.transition = 'opacity 1s ease';
+            document.body.style.opacity = '0';
+            // window.location.href = '/dashboard';
+        }, 4000);
+        */
+    </script>
+</body></html>

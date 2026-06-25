@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #1d100a;
+            color: #f8ddd2;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-orange {
+            box-shadow: 0px 4px 20px rgba(255, 107, 0, 0.2);
+        }
+        .active-nav-glow {
+            box-shadow: 0px -4px 20px rgba(255, 107, 0, 0.1);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #170b06;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #41312a;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff6b00;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#ffdad6",
+                        "outline": "#a98a7d",
+                        "outline-variant": "#5a4136",
+                        "on-surface": "#f8ddd2",
+                        "secondary-fixed": "#ffdcbe",
+                        "on-secondary-container": "#fff7f2",
+                        "surface-variant": "#41312a",
+                        "surface": "#1d100a",
+                        "tertiary-fixed": "#d0e4ff",
+                        "on-tertiary-fixed": "#001d35",
+                        "surface-container-lowest": "#170b06",
+                        "surface-container": "#2b1c16",
+                        "surface-container-low": "#261812",
+                        "surface-container-highest": "#41312a",
+                        "primary-fixed": "#ffdbcc",
+                        "on-secondary-fixed": "#2d1600",
+                        "on-surface-variant": "#e2bfb0",
+                        "tertiary": "#9ccaff",
+                        "on-secondary": "#4a2800",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "inverse-on-surface": "#3d2d26",
+                        "background": "#1d100a",
+                        "on-error": "#690005",
+                        "surface-bright": "#46362e",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#059eff",
+                        "on-tertiary-fixed-variant": "#00497b",
+                        "surface-container-high": "#362720",
+                        "on-primary-container": "#572000",
+                        "on-primary-fixed": "#351000",
+                        "secondary-container": "#a76100",
+                        "secondary": "#ffb871",
+                        "primary-fixed-dim": "#ffb693",
+                        "on-background": "#f8ddd2",
+                        "surface-dim": "#1d100a",
+                        "secondary-fixed-dim": "#ffb871",
+                        "inverse-surface": "#f8ddd2",
+                        "on-primary": "#561f00",
+                        "on-tertiary-container": "#003357",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#6a3c00",
+                        "surface-tint": "#ffb693",
+                        "inverse-primary": "#a04100",
+                        "primary-container": "#ff6b00",
+                        "on-tertiary": "#003257",
+                        "tertiary-fixed-dim": "#9ccaff",
+                        "primary": "#ffb693"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "unit": "4px",
+                        "gutter": "20px",
+                        "xs": "4px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "xl": "40px",
+                        "md": "16px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Outfit"],
+                        "headline-lg": ["Outfit"],
+                        "label-lg": ["Outfit"],
+                        "body-lg": ["Outfit"],
+                        "headline-md": ["Outfit"],
+                        "body-md": ["Outfit"],
+                        "display-xl": ["Outfit"],
+                        "display-xl-mobile": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-xl": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "display-xl-mobile": ["40px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-background border-b border-surface-variant docked full-width top-0 z-40">
+<div class="flex justify-between items-center w-full px-margin-mobile h-16 max-w-7xl mx-auto">
+<div class="flex items-center gap-4">
+<button class="hover:opacity-80 transition-opacity active:scale-95 transition-transform text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-display-xl-mobile text-display-xl-mobile font-extrabold text-primary">CurveType</h1>
+</div>
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full border-2 border-primary-container overflow-hidden active:scale-95 transition-transform cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a creative director in a dark studio setting. The lighting is dramatic, with a subtle orange backlight reflecting the brand's primary color. The individual has a focused, confident expression, fitting for a high-performance creative tool user. The overall aesthetic is sleek, high-contrast, and premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAChla5GNfq2X0idOi5xaHhByNhAg_GCtmHa6SMPCCp9RDDY4hmpd9i4M254Vn1MApOJGtNStmDkKPlhlcGShB-dG9YY1WSS2DPOQCokIrPHHUgRuBJs0WO4HkwOS1puEoXq-s5q4CJC-ad_jOloVlW-iTGleIMf_9ZLMC41Jqp2Y4hGCiXBWlgyGmlHuCxqQ042niOACvh1Qgr_p7wO4IhjQYbeair1daIirj8Knk069aiBG8d1ODLlaCPi37hQpRC_FL8eZ-VTb04"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin-mobile py-lg space-y-lg">
+<!-- Search & Import Header -->
+<section class="space-y-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Projects</h2>
+<div class="relative flex-grow max-w-md">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-[#1A1A1A] border border-[#333333] rounded-full py-3 pl-12 pr-4 text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all placeholder:text-outline-variant" placeholder="Search projects..." type="text"/>
+</div>
+</div>
+<!-- Import Section -->
+<div class="bg-[#1A1A1A] border border-[#333333] rounded-xl p-lg flex flex-col md:flex-row items-center gap-lg hover:border-primary-container/40 transition-colors group">
+<div class="w-16 h-16 bg-surface-container-highest rounded-full flex items-center justify-center text-primary-container group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-4xl">cloud_upload</span>
+</div>
+<div class="flex-grow text-center md:text-left space-y-1">
+<h3 class="font-headline-md text-headline-md text-on-surface">Import Assets</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Drag and drop vector files, fonts, or project archives.</p>
+</div>
+<button class="bg-primary-container text-on-primary-container px-lg py-3 rounded-full font-label-lg text-label-lg glow-orange hover:opacity-90 active:scale-95 transition-all">
+                    Browse Files
+                </button>
+</div>
+</section>
+<!-- All Projects List -->
+<section class="space-y-md">
+<div class="flex items-center justify-between">
+<h3 class="font-label-lg text-label-lg uppercase tracking-wider text-outline">All Projects</h3>
+<button class="flex items-center gap-2 text-primary font-label-lg text-label-lg hover:underline">
+                    View Archive <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+<!-- Project Card 1 -->
+<div class="bg-[#1A1A1A] border border-[#333333] rounded-xl p-md flex items-start gap-md hover:border-primary-container transition-all cursor-pointer group">
+<div class="p-3 bg-secondary-container/10 rounded-xl text-primary-container">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">folder</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Neo-Tokyo Series</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Edited 2 hours ago</p>
+<div class="flex gap-2 mt-3">
+<span class="px-2 py-1 bg-surface-container-highest rounded-full text-[10px] font-bold text-outline uppercase">Vector</span>
+<span class="px-2 py-1 bg-surface-container-highest rounded-full text-[10px] font-bold text-outline uppercase">Active</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<!-- Project Card 2 -->
+<div class="bg-[#1A1A1A] border border-[#333333] rounded-xl p-md flex items-start gap-md hover:border-primary-container transition-all cursor-pointer group">
+<div class="p-3 bg-secondary-container/10 rounded-xl text-primary-container">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">folder</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Client Branding V4</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Edited yesterday</p>
+<div class="flex gap-2 mt-3">
+<span class="px-2 py-1 bg-surface-container-highest rounded-full text-[10px] font-bold text-outline uppercase">Confidential</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<!-- Project Card 3 -->
+<div class="bg-[#1A1A1A] border border-[#333333] rounded-xl p-md flex items-start gap-md hover:border-primary-container transition-all cursor-pointer group">
+<div class="p-3 bg-secondary-container/10 rounded-xl text-primary-container">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">folder</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Curve Experiments</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Edited 3 days ago</p>
+<div class="flex gap-2 mt-3">
+<span class="px-2 py-1 bg-surface-container-highest rounded-full text-[10px] font-bold text-outline uppercase">Draft</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<!-- Project Card 4 -->
+<div class="bg-[#1A1A1A] border border-[#333333] rounded-xl p-md flex items-start gap-md hover:border-primary-container transition-all cursor-pointer group">
+<div class="p-3 bg-secondary-container/10 rounded-xl text-primary-container">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">folder</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Social Pack Oct</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Edited 1 week ago</p>
+<div class="flex gap-2 mt-3">
+<span class="px-2 py-1 bg-surface-container-highest rounded-full text-[10px] font-bold text-outline uppercase">Exported</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-6 w-16 h-16 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center glow-orange z-50 hover:scale-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-4xl">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface-container-low rounded-t-xl active-nav-glow">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<!-- Edit -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-label-sm text-label-sm">Edit</span>
+</a>
+<!-- Projects (Active) -->
+<a class="flex flex-col items-center justify-center text-primary font-bold bg-secondary-container/10 rounded-xl px-3 py-1 scale-110 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">folder_open</span>
+<span class="font-label-sm text-label-sm">Projects</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.bg-\\[\\#1A1A1A\\]').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

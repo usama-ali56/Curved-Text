@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CurveType Editor | Momentum</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#ffdad6",
+                    "outline": "#a98a7d",
+                    "outline-variant": "#5a4136",
+                    "on-surface": "#f8ddd2",
+                    "secondary-fixed": "#ffdcbe",
+                    "on-secondary-container": "#fff7f2",
+                    "surface-variant": "#41312a",
+                    "surface": "#1d100a",
+                    "tertiary-fixed": "#d0e4ff",
+                    "on-tertiary-fixed": "#001d35",
+                    "surface-container-lowest": "#170b06",
+                    "surface-container": "#2b1c16",
+                    "surface-container-low": "#261812",
+                    "surface-container-highest": "#41312a",
+                    "primary-fixed": "#ffdbcc",
+                    "on-secondary-fixed": "#2d1600",
+                    "on-surface-variant": "#e2bfb0",
+                    "tertiary": "#9ccaff",
+                    "on-secondary": "#4a2800",
+                    "on-primary-fixed-variant": "#7a3000",
+                    "inverse-on-surface": "#3d2d26",
+                    "background": "#1d100a",
+                    "on-error": "#690005",
+                    "surface-bright": "#46362e",
+                    "error-container": "#93000a",
+                    "tertiary-container": "#059eff",
+                    "on-tertiary-fixed-variant": "#00497b",
+                    "surface-container-high": "#362720",
+                    "on-primary-container": "#572000",
+                    "on-primary-fixed": "#351000",
+                    "secondary-container": "#a76100",
+                    "secondary": "#ffb871",
+                    "primary-fixed-dim": "#ffb693",
+                    "on-background": "#f8ddd2",
+                    "surface-dim": "#1d100a",
+                    "secondary-fixed-dim": "#ffb871",
+                    "inverse-surface": "#f8ddd2",
+                    "on-primary": "#561f00",
+                    "on-tertiary-container": "#003357",
+                    "error": "#ffb4ab",
+                    "on-secondary-fixed-variant": "#6a3c00",
+                    "surface-tint": "#ffb693",
+                    "inverse-primary": "#a04100",
+                    "primary-container": "#ff6b00",
+                    "on-tertiary": "#003257",
+                    "tertiary-fixed-dim": "#9ccaff",
+                    "primary": "#ffb693"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "unit": "4px",
+                    "gutter": "20px",
+                    "xs": "4px",
+                    "margin-desktop": "32px",
+                    "margin-mobile": "16px",
+                    "xl": "40px",
+                    "md": "16px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Outfit"],
+                    "headline-lg": ["Outfit"],
+                    "label-lg": ["Outfit"],
+                    "body-lg": ["Outfit"],
+                    "headline-md": ["Outfit"],
+                    "body-md": ["Outfit"],
+                    "display-xl": ["Outfit"],
+                    "display-xl-mobile": ["Outfit"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-xl": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "display-xl-mobile": ["40px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #0D0D0D;
+            color: #f8ddd2;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glow-shadow-primary {
+            box-shadow: 0px 4px 20px rgba(255, 107, 0, 0.2);
+        }
+
+        .curved-text-path {
+            fill: transparent;
+        }
+
+        .text-path-content {
+            fill: white;
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .drag-handle {
+            width: 14px;
+            height: 14px;
+            background: #ffb693; /* primary */
+            border: 2px solid white;
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
+        }
+
+        .arc-handle {
+            width: 20px;
+            height: 20px;
+            background: #ff6b00; /* primary-container */
+            border: 3px solid white;
+            border-radius: 50%;
+            position: absolute;
+            cursor: ns-resize;
+            box-shadow: 0 0 15px rgba(255, 107, 0, 0.6);
+        }
+
+        /* Custom range styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            background: #333333;
+            border-radius: 2px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #ff6b00;
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 0 10px rgba(255, 107, 0, 0.3);
+        }
+
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.85);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid #333333;
+        }
+
+        .active-font-chip {
+            background: rgba(255, 107, 0, 0.1);
+            border: 1px solid #ff6b00;
+            color: #ff6b00;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col h-screen overflow-hidden">
+<!-- Top Navigation Bar (Shared Component Style Mapping) -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 bg-background border-b border-surface-variant z-50">
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-variant transition-colors text-on-surface">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="hidden md:flex items-center gap-2">
+<button class="p-2 text-on-surface hover:opacity-80 transition-opacity"><span class="material-symbols-outlined">undo</span></button>
+<button class="p-2 text-on-surface hover:opacity-80 transition-opacity"><span class="material-symbols-outlined">redo</span></button>
+</div>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary font-bold">CurveType</h1>
+<div class="flex items-center gap-2 md:gap-4">
+<button class="hidden md:flex items-center gap-1 p-2 text-on-surface hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">layers</span>
+</button>
+<button class="bg-primary-container text-on-primary-container font-label-lg text-label-lg px-6 py-2.5 rounded-full glow-shadow-primary hover:opacity-90 active:scale-95 transition-all">
+                Export
+            </button>
+</div>
+</header>
+<!-- Canvas Area -->
+<main class="relative flex-grow w-full bg-[#0D0D0D] overflow-hidden flex items-center justify-center">
+<!-- Main Background Image -->
+<div class="absolute inset-0 w-full h-full opacity-60">
+<div class="w-full h-full bg-cover bg-center" data-alt="A wide cinematic landscape of a futuristic neon city at dusk. Dramatic orange and deep purple light spills across sleek architectural forms and wet asphalt streets. The atmosphere is moody, high-contrast, and professional, reflecting a premium creative studio aesthetic with sharp focus and deep tonal layers." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuANr-NoLyioRwudaFU9SUPT6v0eTXDDwG6oiYABxD--x_9ddOrtaNQlmioE4HBrfdZwpoBs-5U9k87jXslKujY_-rqruPeIr-Y4YntRC6s3CJxtbGG6N3ST5azehq1_vjO-VGXPUhnfSedDkp2Gu4XooMIpOjY8S6OWfzIrd5NDalG847kNCY4wICR_LysKTtgc9kF7kvVH1HVgYINaTumcPWnq3QbpNKdcyRy5b6l27iR64P1KgtV4c1JyDxfpW4JkRMDmE4qU9YYC')"></div>
+</div>
+<!-- Interactive Canvas Element -->
+<div class="relative z-10 w-[80%] max-w-[800px] aspect-video flex items-center justify-center">
+<!-- Curved Text Block Container -->
+<div class="relative group p-12 border-2 border-[#FFA94D]/30 rounded-xl cursor-move transition-colors hover:border-[#FFA94D]">
+<!-- SVG Curved Text -->
+<svg class="overflow-visible drop-shadow-xl" height="300" viewbox="0 0 600 300" width="600">
+<defs>
+<path d="M 50 200 Q 300 50 550 200" id="curvePath"></path>
+</defs>
+<text class="text-path-content">
+<textpath startoffset="50%" text-anchor="middle" xlink:href="#curvePath">
+                            MOMENTUM
+                        </textpath>
+</text>
+</svg>
+<!-- Bounding Box Handles -->
+<div class="drag-handle top-[-7px] left-[-7px]"></div>
+<div class="drag-handle top-[-7px] right-[-7px]"></div>
+<div class="drag-handle bottom-[-7px] left-[-7px]"></div>
+<div class="drag-handle bottom-[-7px] right-[-7px]"></div>
+<!-- Curvature Control Handle -->
+<div class="arc-handle left-1/2 bottom-[-10px] transform -translate-x-1/2 flex items-center justify-center">
+<span class="material-symbols-outlined text-[12px] text-white">unfold_more</span>
+</div>
+</div>
+</div>
+<!-- Float Info (Optional Aesthetic) -->
+<div class="absolute bottom-6 left-8 flex items-center gap-3 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Editing Layer 01</span>
+</div>
+</main>
+<!-- Property Panel (Bottom Sheet) -->
+<section class="fixed bottom-0 left-0 w-full z-50 glass-panel rounded-t-[32px] md:rounded-t-[40px] px-6 pt-8 pb-10 transition-transform duration-300" id="propertyPanel">
+<!-- Drag Handle Indicator -->
+<div class="absolute top-3 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-[#333333] rounded-full"></div>
+<div class="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Font Selector Row -->
+<div class="col-span-1 md:col-span-3 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Font Family</span>
+<button class="text-primary font-label-sm text-label-sm flex items-center gap-1">
+                        View All <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+<div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide no-scrollbar">
+<div class="flex-shrink-0 active-font-chip px-5 py-2.5 rounded-full font-headline-md text-headline-md cursor-pointer">Outfit</div>
+<div class="flex-shrink-0 bg-[#262626] hover:bg-[#333333] text-on-surface-variant px-5 py-2.5 rounded-full font-headline-md text-headline-md cursor-pointer transition-colors">Inter</div>
+<div class="flex-shrink-0 bg-[#262626] hover:bg-[#333333] text-on-surface-variant px-5 py-2.5 rounded-full font-headline-md text-headline-md cursor-pointer transition-colors">Montserrat</div>
+<div class="flex-shrink-0 bg-[#262626] hover:bg-[#333333] text-on-surface-variant px-5 py-2.5 rounded-full font-headline-md text-headline-md cursor-pointer transition-colors">Space Mono</div>
+<div class="flex-shrink-0 bg-[#262626] hover:bg-[#333333] text-on-surface-variant px-5 py-2.5 rounded-full font-headline-md text-headline-md cursor-pointer transition-colors">Clash Display</div>
+</div>
+</div>
+<!-- Property Sliders -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center px-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase">Curvature</label>
+<span class="font-label-sm text-label-sm text-primary">64%</span>
+</div>
+<input class="w-full h-8" max="100" min="0" type="range" value="64"/>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center px-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase">Size</label>
+<span class="font-label-sm text-label-sm text-primary">48px</span>
+</div>
+<input class="w-full h-8" max="120" min="12" type="range" value="48"/>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center px-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase">Letter Spacing</label>
+<span class="font-label-sm text-label-sm text-primary">0.1em</span>
+</div>
+<input class="w-full h-8" max="50" min="0" type="range" value="10"/>
+</div>
+</div>
+<!-- Quick Action Footer for Mobile -->
+<div class="mt-8 pt-6 border-t border-[#333333] flex justify-between items-center md:hidden">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">palette</span>
+<span class="font-label-sm text-label-sm">Color</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">auto_fix_high</span>
+<span class="font-label-sm text-label-sm">Effects</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">content_copy</span>
+<span class="font-label-sm text-label-sm">Duplicate</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">delete</span>
+<span class="font-label-sm text-label-sm">Delete</span>
+</button>
+</div>
+</section>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Simple logic to adjust curvature path based on slider
+        const curvatureSlider = document.querySelectorAll('input[type=range]')[0];
+        const pathElement = document.getElementById('curvePath');
+
+        curvatureSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            const curveHeight = 250 - (val * 2.5); // Maps slider 0-100 to curve depth
+            pathElement.setAttribute('d', `M 50 200 Q 300 ${curveHeight} 550 200`);
+            
+            // Visual feedback for slider percentage
+            const percentageDisplay = e.target.previousElementSibling.querySelector('span');
+            percentageDisplay.textContent = `${val}%`;
+        });
+
+        // Toggle panel height for focus (simulation)
+        let isPanelExpanded = true;
+        const dragBar = document.querySelector('.absolute.top-3.left-1\/2');
+        dragBar.addEventListener('click', () => {
+            const panel = document.getElementById('propertyPanel');
+            if (isPanelExpanded) {
+                panel.style.transform = 'translateY(calc(100% - 120px))';
+            } else {
+                panel.style.transform = 'translateY(0)';
+            }
+            isPanelExpanded = !isPanelExpanded;
+        });
+
+        // Ripple/Active effect for font chips
+        const fontChips = document.querySelectorAll('.flex-shrink-0');
+        fontChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                fontChips.forEach(c => {
+                    c.classList.remove('active-font-chip');
+                    c.classList.add('bg-[#262626]', 'text-on-surface-variant');
+                });
+                chip.classList.add('active-font-chip');
+                chip.classList.remove('bg-[#262626]', 'text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>

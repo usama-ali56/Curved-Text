@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>CurveType Editor | Client Branding V4</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#41485e",
+                    "surface-container-high": "#dce9ff",
+                    "primary-container": "#4f46e5",
+                    "surface-container-low": "#eff4ff",
+                    "inverse-primary": "#c3c0ff",
+                    "tertiary-container": "#586076",
+                    "secondary-fixed-dim": "#c0c1ff",
+                    "surface-tint": "#4d44e3",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#d3e4fe",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "inverse-surface": "#213145",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "on-primary-fixed": "#0f0069",
+                    "outline-variant": "#c7c4d8",
+                    "on-primary-container": "#dad7ff",
+                    "primary": "#3525cd",
+                    "on-background": "#0b1c30",
+                    "surface-dim": "#cbdbf5",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "secondary-fixed": "#e1e0ff",
+                    "tertiary-fixed": "#dae2fd",
+                    "surface-variant": "#d3e4fe",
+                    "on-surface": "#0b1c30",
+                    "surface": "#f8f9ff",
+                    "primary-fixed": "#e2dfff",
+                    "on-secondary-fixed-variant": "#2f2ebe",
+                    "surface-bright": "#f8f9ff",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#6063ee",
+                    "on-secondary-fixed": "#07006c",
+                    "secondary": "#4648d4",
+                    "outline": "#777587",
+                    "on-tertiary-container": "#d4dbf5",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed": "#131b2e",
+                    "on-surface-variant": "#464555",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "on-primary": "#ffffff",
+                    "surface-container": "#e5eeff",
+                    "background": "#f8f9ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "sm": "8px",
+                    "base": "4px",
+                    "margin-mobile": "20px",
+                    "lg": "24px",
+                    "gutter": "16px",
+                    "md": "16px",
+                    "margin-tablet": "40px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "caption": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "title-md": ["Outfit"],
+                    "headline-lg": ["Outfit"],
+                    "headline-lg-mobile": ["Outfit"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Outfit"],
+                    "headline-xl": ["Outfit"],
+                    "title-lg": ["Outfit"],
+                    "label-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "caption": ["11px", {"lineHeight": "14px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "title-md": ["18px", {"lineHeight": "24px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .canvas-shadow {
+            box-shadow: 0px 8px 32px rgba(15, 23, 42, 0.12);
+        }
+        .slider-thumb::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #4F46E5;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid #FFFFFF;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .curved-text-path {
+            fill: transparent;
+        }
+        .text-overlay {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            fill: white;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-low text-on-surface min-h-screen flex flex-col font-body-md overflow-hidden">
+<!-- Top Bar -->
+<header class="bg-surface flex justify-between items-center w-full px-margin-mobile h-14 z-40">
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high active:scale-95 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant">arrow_back</span>
+</button>
+<div class="flex flex-col">
+<h1 class="font-title-md text-title-md leading-tight">Client Branding V4</h1>
+<span class="font-caption text-caption text-on-surface-variant">Last saved 2m ago</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="hidden md:flex items-center bg-surface-container-high rounded-xl p-1 mr-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-container-lowest text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">undo</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-container-lowest text-on-surface-variant opacity-50">
+<span class="material-symbols-outlined text-[20px]">redo</span>
+</button>
+</div>
+<button class="bg-primary text-on-primary px-4 h-9 rounded-xl font-label-lg flex items-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]">ios_share</span>
+<span>Export</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas Area -->
+<main class="flex-1 relative flex items-center justify-center overflow-hidden p-6">
+<div class="relative w-full max-w-[340px] aspect-[3/4] md:max-w-[600px] bg-white canvas-shadow rounded-2xl overflow-hidden group">
+<!-- Background Image -->
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A high-end professional lifestyle photograph for a creative agency. The image shows a minimalist workspace with a sleek laptop, a cup of specialty coffee, and soft morning light filtering through a large window. The color palette is dominated by soft creams, deep indigos, and clean whites, creating a sophisticated and productive atmosphere typical of a premium SaaS branding project." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAMWFEqFxLu6PJc20mV7nmQ6rzvoocXmE1XqAxf-TkHUFgeksbTKYfGBwiH5lJqf6YrAK7WfBc9Djw2vC-DTgLIwyO91GHZ0s4_NwpFi9VTYt0c1H8PkFsL813Lmavdfs83ws0yO8k-6-bYlDqPNB39X2EEswVJM4ZpzROOuk2mJQU1NikWogkkgFg6KgsmkPuUq08bDmJeiZFWjKD65mE2UgyluMSjdPyVjS7T_3Bp2etTxVJl2aXgJakPK6_46G0btaj0jbPvi2U0')"></div>
+<!-- SVG Overlay for Curved Text -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none select-none" viewbox="0 0 300 400">
+<defs>
+<path d="M 50,250 Q 150,150 250,250" id="curvePath"></path>
+</defs>
+<!-- Selection Indicator -->
+<path class="opacity-80" d="M 45,255 Q 150,145 255,255" fill="none" stroke="#4F46E5" stroke-dasharray="4 4" stroke-width="2"></path>
+<circle cx="50" cy="250" fill="white" r="4" stroke="#4F46E5" stroke-width="2"></circle>
+<circle cx="150" cy="150" fill="white" r="4" stroke="#4F46E5" stroke-width="2"></circle>
+<circle cx="250" cy="250" fill="white" r="4" stroke="#4F46E5" stroke-width="2"></circle>
+<text class="text-overlay text-[24px]">
+<textpath href="#curvePath" startoffset="50%" text-anchor="middle">
+                        CRAFTING IDENTITY
+                    </textpath>
+</text>
+</svg>
+<!-- Interaction Overlays -->
+<div class="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary">zoom_in</span>
+</button>
+<button class="w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-on-surface-variant">grid_view</span>
+</button>
+</div>
+</div>
+<!-- Floating Undo/Redo for Mobile -->
+<div class="md:hidden absolute top-4 right-4 flex items-center bg-white/80 backdrop-blur-md rounded-2xl p-1 shadow-lg border border-white/20">
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">undo</span>
+</button>
+<div class="w-[1px] h-4 bg-outline-variant"></div>
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">redo</span>
+</button>
+</div>
+</main>
+<!-- Bottom Toolbar (Scrollable Tools) -->
+<nav class="bg-surface-container-lowest border-t border-outline-variant/30 px-2 py-3 pb-safe z-30">
+<div class="flex items-center gap-1 overflow-x-auto no-scrollbar max-w-2xl mx-auto">
+<button class="flex-shrink-0 flex flex-col items-center justify-center px-4 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined mb-1">title</span>
+<span class="font-label-md text-label-md">Text</span>
+</button>
+<button class="flex-shrink-0 flex flex-col items-center justify-center px-4 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined mb-1">font_download</span>
+<span class="font-label-md text-label-md">Fonts</span>
+</button>
+<!-- Selected State -->
+<button class="flex-shrink-0 flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-primary-container text-on-primary-container shadow-sm transition-all scale-105">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">architecture</span>
+<span class="font-label-md text-label-md font-semibold">Curve</span>
+</button>
+<button class="flex-shrink-0 flex flex-col items-center justify-center px-4 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined mb-1">palette</span>
+<span class="font-label-md text-label-md">Color</span>
+</button>
+<button class="flex-shrink-0 flex flex-col items-center justify-center px-4 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined mb-1">magic_button</span>
+<span class="font-label-md text-label-md">Effects</span>
+</button>
+<button class="flex-shrink-0 flex flex-col items-center justify-center px-4 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined mb-1">layers</span>
+<span class="font-label-md text-label-md">Layers</span>
+</button>
+</div>
+</nav>
+<!-- Property Panel (Bottom Sheet) -->
+<div class="fixed bottom-0 left-0 right-0 bg-white rounded-t-[24px] shadow-[0_-8px_40px_-10px_rgba(0,0,0,0.2)] z-50 transform translate-y-0 transition-transform duration-300 border-t border-outline-variant/10">
+<!-- Sheet Handle -->
+<div class="flex flex-col items-center pt-3 pb-2 cursor-pointer" onclick="toggleSheet()">
+<div class="w-10 h-1 bg-outline-variant rounded-full mb-4"></div>
+</div>
+<div class="px-6 pb-10 max-w-lg mx-auto">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-title-lg text-title-lg">Curve Settings</h3>
+<button class="text-primary font-label-lg">Reset</button>
+</div>
+<!-- Curvature Slider -->
+<div class="space-y-4 mb-8">
+<div class="flex justify-between items-center">
+<label class="font-label-lg text-on-surface-variant">Curvature</label>
+<span class="font-label-md text-primary bg-primary-container px-2 py-0.5 rounded-lg">65%</span>
+</div>
+<input class="w-full h-1.5 bg-surface-container-highest rounded-lg appearance-none cursor-pointer slider-thumb" max="100" min="0" type="range" value="65"/>
+</div>
+<!-- Radius Slider -->
+<div class="space-y-4 mb-8">
+<div class="flex justify-between items-center">
+<label class="font-label-lg text-on-surface-variant">Radius</label>
+<span class="font-label-md text-primary bg-primary-container px-2 py-0.5 rounded-lg">120px</span>
+</div>
+<input class="w-full h-1.5 bg-surface-container-highest rounded-lg appearance-none cursor-pointer slider-thumb" max="300" min="10" type="range" value="120"/>
+</div>
+<!-- Direction Segmented Control -->
+<div class="space-y-3">
+<label class="font-label-lg text-on-surface-variant">Direction</label>
+<div class="flex bg-surface-container-low p-1.5 rounded-2xl border border-outline-variant/20">
+<button class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white shadow-sm text-primary font-label-lg transition-all">
+<span class="material-symbols-outlined text-[20px]">expand_less</span>
+                        Convex
+                    </button>
+<button class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-on-surface-variant font-label-lg hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-[20px]">expand_more</span>
+                        Concave
+                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Scripts for micro-interactions -->
+<script>
+        let isSheetOpen = true;
+        const sheet = document.querySelector('.fixed.bottom-0');
+
+        function toggleSheet() {
+            if (isSheetOpen) {
+                sheet.style.transform = 'translateY(calc(100% - 60px))';
+            } else {
+                sheet.style.transform = 'translateY(0)';
+            }
+            isSheetOpen = !isSheetOpen;
+        }
+
+        // Add visual feedback to tool icons
+        const tools = document.querySelectorAll('nav button');
+        tools.forEach(tool => {
+            tool.addEventListener('click', () => {
+                tools.forEach(t => {
+                    t.classList.remove('bg-primary-container', 'text-on-primary-container', 'scale-105', 'font-semibold');
+                    t.classList.add('text-on-surface-variant');
+                });
+                tool.classList.add('bg-primary-container', 'text-on-primary-container', 'scale-105', 'font-semibold');
+                tool.classList.remove('text-on-surface-variant');
+            });
+        });
+
+        // Simple curvature logic simulation
+        const curvatureInput = document.querySelector('input[type="range"]:first-of-type');
+        const curvePath = document.getElementById('curvePath');
+        
+        curvatureInput.addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            const height = 250 - (val * 1.5);
+            curvePath.setAttribute('d', `M 50,250 Q 150,${height} 250,250`);
+            
+            // Update labels
+            e.target.previousElementSibling.querySelector('span').textContent = `${val}%`;
+        });
+    </script>
+</body></html>
