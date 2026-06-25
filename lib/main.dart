@@ -1,5 +1,6 @@
 // CurveType: Premium Kinetic Typography Studio in Flutter.
 // This line was added on the feature/git-lesson branch.
+//asasassaasasas
 //kpskxojcksjcjskcjskjckscsj
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
