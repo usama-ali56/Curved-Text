@@ -137,7 +137,7 @@ class ProjectsListNotifier extends Notifier<AsyncValue<List<Project>>> {
     return project;
   }
 }
-
+// I made a chnge
 final projectsListProvider =
     NotifierProvider<ProjectsListNotifier, AsyncValue<List<Project>>>(() {
   return ProjectsListNotifier();

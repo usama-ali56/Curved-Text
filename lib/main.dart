@@ -1,3 +1,4 @@
+// CurveType: Premium Kinetic Typography Studio in Flutter.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +8,7 @@ import 'presentation/state/theme_state.dart';
 
 void main() async {
   // Ensure Flutter engine bindings are initialized
+  // This is my Change
   WidgetsFlutterBinding.ensureInitialized();
   
   // Seed default sample projects if first launch
