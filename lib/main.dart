@@ -36,6 +36,7 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       themeMode: themeMode,
       
+      // CurveType Custom Visual Accent Configuration
       // Light Mode Theme
       theme: ThemeData(
         brightness: Brightness.light,
