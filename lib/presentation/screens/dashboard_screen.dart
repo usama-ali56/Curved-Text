@@ -21,6 +21,9 @@ import 'signin_screen.dart';
 class ProjectsListNotifier extends Notifier<AsyncValue<List<Project>>> {
   @override
   AsyncValue<List<Project>> build() {
+    // Watch authProvider so the projects list rebuilds and refreshes when the user changes
+    ref.watch(authProvider);
+
     Future.microtask(() => refresh());
     return const AsyncValue.loading();
   }
@@ -28,7 +31,9 @@ class ProjectsListNotifier extends Notifier<AsyncValue<List<Project>>> {
   Future<void> refresh() async {
     state = const AsyncValue.loading();
     try {
-      final list = await DatabaseHelper.instance.getAllProjects();
+      final user = ref.read(authProvider).user;
+      final userId = user?.uid ?? 'local_user';
+      final list = await DatabaseHelper.instance.getProjectsForUser(userId);
       state = AsyncValue.data(list);
     } catch (e, stack) {
       state = AsyncValue.error(e, stack);
@@ -75,6 +80,8 @@ class ProjectsListNotifier extends Notifier<AsyncValue<List<Project>>> {
         final String newId = const Uuid().v4();
         final String ext = p.extension(project.imagePath);
         final String targetPath = p.join(appDir.path, 'project_$newId$ext');
+        final user = ref.read(authProvider).user;
+        final userId = user?.uid ?? 'local_user';
 
         // Copy source image file
         await File(project.imagePath).copy(targetPath);
@@ -91,6 +98,7 @@ class ProjectsListNotifier extends Notifier<AsyncValue<List<Project>>> {
           textLayers: newLayers,
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
+          userId: userId,
         );
 
         await DatabaseHelper.instance.saveProject(duplicated);
@@ -106,6 +114,8 @@ class ProjectsListNotifier extends Notifier<AsyncValue<List<Project>>> {
     final String id = const Uuid().v4();
     final String ext = p.extension(sourcePath);
     final String targetPath = p.join(appDir.path, 'project_$id$ext');
+    final user = ref.read(authProvider).user;
+    final userId = user?.uid ?? 'local_user';
 
     // Copy source image to project local directory
     await File(sourcePath).copy(targetPath);
@@ -132,6 +142,7 @@ class ProjectsListNotifier extends Notifier<AsyncValue<List<Project>>> {
         ),
       ],
       imageSettings: ImageSettings(),
+      userId: userId,
     );
 
     await DatabaseHelper.instance.saveProject(project);

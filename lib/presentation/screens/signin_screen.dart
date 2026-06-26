@@ -106,7 +106,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with TickerProvider
       }
     } catch (e) {
       if (mounted) {
-        _showErrorSnackBar('Authentication failed: $e');
+        final message = e.toString().replaceFirst('Exception: ', '');
+        _showErrorSnackBar(message);
       }
     }
   }

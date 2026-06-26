@@ -9,6 +9,7 @@ class Project {
   final DateTime updatedAt;
   final List<TextLayer> textLayers;
   final ImageSettings imageSettings;
+  final String userId;
 
   Project({
     required this.id,
@@ -18,6 +19,7 @@ class Project {
     required this.updatedAt,
     this.textLayers = const [],
     ImageSettings? imageSettings,
+    this.userId = 'local_user',
   }) : this.imageSettings = imageSettings ?? ImageSettings();
 
   Project copyWith({
@@ -28,6 +30,7 @@ class Project {
     DateTime? updatedAt,
     List<TextLayer>? textLayers,
     ImageSettings? imageSettings,
+    String? userId,
   }) {
     return Project(
       id: id ?? this.id,
@@ -37,6 +40,7 @@ class Project {
       updatedAt: updatedAt ?? this.updatedAt,
       textLayers: textLayers ?? this.textLayers,
       imageSettings: imageSettings ?? this.imageSettings,
+      userId: userId ?? this.userId,
     );
   }
 
@@ -48,6 +52,7 @@ class Project {
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
       'imageSettings': imageSettings.toMap(),
+      'userId': userId,
     };
   }
 
@@ -62,6 +67,7 @@ class Project {
       imageSettings: map['imageSettings'] is Map
           ? ImageSettings.fromMap(Map<String, dynamic>.from(map['imageSettings'] as Map))
           : ImageSettings(),
+      userId: map['userId'] as String? ?? 'local_user',
     );
   }
 }

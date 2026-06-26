@@ -22,7 +22,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 2,
+      version: 4,
       onCreate: _createDB,
       onUpgrade: _upgradeDB,
     );
@@ -35,6 +35,28 @@ class DatabaseHelper {
       } catch (e) {
         // Ignore if column already exists
         print('Database upgrade warning: $e');
+      }
+    }
+    if (oldVersion < 3) {
+      try {
+        await db.execute("ALTER TABLE projects ADD COLUMN userId TEXT NOT NULL DEFAULT 'local_user'");
+      } catch (e) {
+        print('Database upgrade warning (projects userId): $e');
+      }
+    }
+    if (oldVersion < 4) {
+      try {
+        await db.execute('''
+          CREATE TABLE users (
+            email TEXT PRIMARY KEY,
+            password TEXT NOT NULL,
+            name TEXT NOT NULL,
+            createdAt TEXT NOT NULL
+          )
+        ''');
+        print('Database upgraded to version 4: users table created.');
+      } catch (e) {
+        print('Database upgrade warning (users table): $e');
       }
     }
   }
@@ -56,7 +78,8 @@ class DatabaseHelper {
         imagePath TEXT NOT NULL,
         createdAt TEXT NOT NULL,
         updatedAt TEXT NOT NULL,
-        imageSettings TEXT NOT NULL
+        imageSettings TEXT NOT NULL,
+        userId TEXT NOT NULL DEFAULT 'local_user'
       )
     ''');
 
@@ -82,6 +105,16 @@ class DatabaseHelper {
         FOREIGN KEY (projectId) REFERENCES projects (id) ON DELETE CASCADE
       )
     ''');
+
+    // Create Users table
+    await db.execute('''
+      CREATE TABLE users (
+        email TEXT PRIMARY KEY,
+        password TEXT NOT NULL,
+        name TEXT NOT NULL,
+        createdAt TEXT NOT NULL
+      )
+    ''');
   }
 
   Future<void> setSetting(String key, String value) async {
@@ -102,6 +135,51 @@ class DatabaseHelper {
     );
     if (maps.isEmpty) return null;
     return maps.first['value'] as String?;
+  }
+
+  Future<void> registerUser(String email, String password, String name) async {
+    final db = await database;
+    final normalizedEmail = email.trim().toLowerCase();
+
+    // Check if user already exists
+    final existing = await db.query(
+      'users',
+      where: 'email = ?',
+      whereArgs: [normalizedEmail],
+    );
+
+    if (existing.isNotEmpty) {
+      throw Exception('An account with this email already exists.');
+    }
+
+    await db.insert('users', {
+      'email': normalizedEmail,
+      'password': password,
+      'name': name,
+      'createdAt': DateTime.now().toIso8601String(),
+    });
+  }
+
+  Future<Map<String, dynamic>?> authenticateUser(String email, String password) async {
+    final db = await database;
+    final normalizedEmail = email.trim().toLowerCase();
+
+    final results = await db.query(
+      'users',
+      where: 'email = ?',
+      whereArgs: [normalizedEmail],
+    );
+
+    if (results.isEmpty) {
+      throw Exception('No account found with this email. Please sign up first.');
+    }
+
+    final userMap = results.first;
+    if (userMap['password'] != password) {
+      throw Exception('Incorrect password. Please try again.');
+    }
+
+    return userMap;
   }
 
   Future<void> saveProject(Project project) async {
@@ -169,6 +247,35 @@ class DatabaseHelper {
     final db = await database;
 
     final projectMaps = await db.query('projects', orderBy: 'updatedAt DESC');
+    final List<Project> projects = [];
+
+    for (final map in projectMaps) {
+      final projectMap = Map<String, dynamic>.from(map);
+      projectMap['imageSettings'] = jsonDecode(projectMap['imageSettings'] as String);
+
+      final projectId = projectMap['id'] as String;
+      final layerMaps = await db.query(
+        'text_layers',
+        where: 'projectId = ?',
+        whereArgs: [projectId],
+      );
+
+      final textLayers = layerMaps.map((m) => TextLayer.fromMap(m)).toList();
+      projects.add(Project.fromMap(projectMap, textLayers));
+    }
+
+    return projects;
+  }
+
+  Future<List<Project>> getProjectsForUser(String userId) async {
+    final db = await database;
+
+    final projectMaps = await db.query(
+      'projects',
+      where: 'userId = ?',
+      whereArgs: [userId],
+      orderBy: 'updatedAt DESC',
+    );
     final List<Project> projects = [];
 
     for (final map in projectMaps) {
