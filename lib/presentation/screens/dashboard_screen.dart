@@ -13,7 +13,9 @@ import '../../domain/models/image_settings.dart';
 import '../../data/database_helper.dart';
 import '../state/editor_state.dart';
 import '../state/theme_state.dart';
+import '../state/auth_state.dart';
 import 'canvas_editor_screen.dart';
+import 'signin_screen.dart';
 
 // Projects list state notifier
 class ProjectsListNotifier extends Notifier<AsyncValue<List<Project>>> {
@@ -578,16 +580,74 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             icon: Icon(Icons.notifications_none_rounded, color: _primaryTextColor, size: 24),
           ),
           const SizedBox(width: 8),
-          Container(
-            width: 36,
-            height: 36,
-            margin: const EdgeInsets.only(right: 16),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: const Color(0xFFE2D1C3), width: 1.5),
+          PopupMenuButton<String>(
+            onSelected: (value) async {
+              final navigator = Navigator.of(context);
+              if (value == 'signout') {
+                await ref.read(authProvider.notifier).signOut();
+                navigator.pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const SignInScreen()),
+                  (route) => false,
+                );
+              }
+            },
+            offset: const Offset(0, 46),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+              side: BorderSide(color: _borderColor),
             ),
-            child: const CircleAvatar(
-              backgroundImage: AssetImage('assets/images/logo.png'),
+            color: _cardBgColor,
+            itemBuilder: (context) {
+              final user = ref.read(authProvider).user;
+              return [
+                PopupMenuItem<String>(
+                  enabled: false,
+                  child: Text(
+                    user != null ? 'Logged in as\n${user.displayName}' : 'Logged in User',
+                    style: GoogleFonts.outfit(
+                      color: _primaryTextColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                const PopupMenuDivider(),
+                PopupMenuItem<String>(
+                  value: 'signout',
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.logout_rounded,
+                        color: Colors.redAccent,
+                        size: 18,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Sign Out',
+                        style: GoogleFonts.outfit(
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ];
+            },
+            child: Container(
+              width: 36,
+              height: 36,
+              margin: const EdgeInsets.only(right: 16),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: const Color(0xFFE2D1C3), width: 1.5),
+              ),
+              child: CircleAvatar(
+                backgroundColor: _borderColor,
+                backgroundImage: ref.watch(authProvider).user?.photoUrl != null
+                    ? NetworkImage(ref.watch(authProvider).user!.photoUrl!) as ImageProvider
+                    : const AssetImage('assets/images/logo.png'),
+              ),
             ),
           ),
         ],
@@ -659,15 +719,21 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
   String _getGreeting() {
     final hour = DateTime.now().hour;
-    final name = _profileName.toUpperCase();
+    final authState = ref.watch(authProvider);
+    String name = _profileName;
+    if (authState.user != null) {
+      name = authState.user!.displayName;
+    }
+    final uppercaseName = name.toUpperCase();
+    
     if (hour >= 5 && hour < 12) {
-      return 'GOOD MORNING, $name';
+      return 'GOOD MORNING, $uppercaseName';
     } else if (hour >= 12 && hour < 17) {
-      return 'GOOD AFTERNOON, $name';
+      return 'GOOD AFTERNOON, $uppercaseName';
     } else if (hour >= 17 && hour < 22) {
-      return 'GOOD EVENING, $name';
+      return 'GOOD EVENING, $uppercaseName';
     } else {
-      return 'GOOD NIGHT, $name';
+      return 'GOOD NIGHT, $uppercaseName';
     }
   }
 
@@ -1684,14 +1750,31 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           _buildSettingsTile(
             Icons.person_outline_rounded,
             'User Profile',
-            'Creative Name: $_profileName',
-            onTap: _showUserProfileSheet,
+            ref.watch(authProvider).user != null
+                ? 'Google Account: ${ref.watch(authProvider).user!.email}'
+                : 'Creative Name: $_profileName',
+            onTap: ref.watch(authProvider).user != null ? null : _showUserProfileSheet,
           ),
           _buildSettingsTile(
             Icons.storage_rounded,
             'Cloud Sync',
             'Not connected (Offline first)',
             onTap: _showCloudSyncSheet,
+          ),
+          _buildSettingsTile(
+            Icons.logout_rounded,
+            'Sign Out',
+            'Logged in as ${ref.watch(authProvider).user?.displayName ?? "User"}',
+            onTap: () async {
+              await ref.read(authProvider.notifier).signOut();
+              if (mounted) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SignInScreen()),
+                  (route) => false,
+                );
+              }
+            },
           ),
         ]),
         const SizedBox(height: 24),

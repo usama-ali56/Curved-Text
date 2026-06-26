@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../data/database_helper.dart';
 import 'dashboard_screen.dart';
+import 'signin_screen.dart';
 import '../widgets/curved_text_painter.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -47,7 +48,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => const DashboardScreen(),
+        pageBuilder: (context, animation, secondaryAnimation) => const SignInScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           final scaleAnimation = Tween<double>(begin: 0.95, end: 1.0).animate(
             CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),

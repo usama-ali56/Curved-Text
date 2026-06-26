@@ -1,18 +1,21 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../data/database_helper.dart';
+import '../state/auth_state.dart';
 import 'onboarding_screen.dart';
 import 'dashboard_screen.dart';
+import 'signin_screen.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
+class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProviderStateMixin {
   late AnimationController _pulseController;
   late AnimationController _rotateController;
   late AnimationController _fadeController;
@@ -50,7 +53,12 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
     Widget nextScreen;
     if (onboardingCompleted == 'true') {
-      nextScreen = const DashboardScreen();
+      final user = await ref.read(authProvider.notifier).signInSilently();
+      if (user != null) {
+        nextScreen = const DashboardScreen();
+      } else {
+        nextScreen = const SignInScreen();
+      }
     } else {
       nextScreen = const OnboardingScreen();
     }
