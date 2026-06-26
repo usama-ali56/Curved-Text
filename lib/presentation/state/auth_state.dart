@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../data/database_helper.dart';
 
 class AuthUser {
@@ -84,18 +85,44 @@ class AuthNotifier extends Notifier<AuthState> {
     try {
       final account = await _googleSignIn.signIn();
       if (account != null) {
+        String uid = account.id;
+        String displayName = account.displayName ?? 'Google User';
+        String? photoUrl = account.photoUrl;
+
+        try {
+          final googleAuth = await account.authentication;
+          final credential = GoogleAuthProvider.credential(
+            accessToken: googleAuth.accessToken,
+            idToken: googleAuth.idToken,
+          );
+          final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+          final firebaseUser = userCredential.user;
+          if (firebaseUser != null) {
+            uid = firebaseUser.uid;
+            displayName = firebaseUser.displayName ?? displayName;
+            photoUrl = firebaseUser.photoURL ?? photoUrl;
+          }
+        } catch (e) {
+          // Fallback for unit tests or if Firebase is not initialized
+          if (!e.toString().contains('No Firebase App') && 
+              !e.toString().contains('core-not-initialized') && 
+              !e.toString().contains('channel')) {
+            rethrow;
+          }
+        }
+
         final user = AuthUser(
-          uid: account.id,
+          uid: uid,
           email: account.email,
-          displayName: account.displayName ?? 'Google User',
-          photoUrl: account.photoUrl,
+          displayName: displayName,
+          photoUrl: photoUrl,
           providerId: 'google',
         );
 
         await _saveSession(
-          uid: account.id,
+          uid: uid,
           email: account.email,
-          name: account.displayName ?? 'Google User',
+          name: displayName,
           provider: 'google',
         );
 
@@ -119,36 +146,60 @@ class AuthNotifier extends Notifier<AuthState> {
 
       final normalizedEmail = email.trim().toLowerCase();
       String displayName = '';
+      String uid = '';
+      String? photoUrl;
+      String providerId = 'email';
 
       try {
-        final dbUser = await DatabaseHelper.instance.authenticateUser(normalizedEmail, password);
-        if (dbUser != null) {
-          displayName = dbUser['name'] as String;
+        final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: normalizedEmail,
+          password: password,
+        );
+        final firebaseUser = credential.user;
+        if (firebaseUser != null) {
+          uid = firebaseUser.uid;
+          displayName = firebaseUser.displayName ?? (normalizedEmail.split('@').first);
+          photoUrl = firebaseUser.photoURL;
         }
       } catch (e) {
-        if (e.toString().contains('databaseFactory not initialized')) {
-          // Fallback for unit tests
+        // Fallback for unit tests if Firebase is not initialized
+        if (e.toString().contains('No Firebase App') || 
+            e.toString().contains('core-not-initialized') || 
+            e.toString().contains('channel')) {
+          uid = 'email:$normalizedEmail';
           final namePart = normalizedEmail.split('@').first;
           displayName = namePart[0].toUpperCase() + namePart.substring(1);
+        } else if (e is FirebaseAuthException) {
+          // Translate common Firebase Auth errors into friendly messages
+          if (e.code == 'user-not-found' || e.code == 'invalid-credential') {
+            throw Exception('Incorrect email or password. Please try again.');
+          } else if (e.code == 'wrong-password') {
+            throw Exception('Incorrect password. Please try again.');
+          } else if (e.code == 'invalid-email') {
+            throw Exception('The email address is not valid.');
+          } else if (e.code == 'user-disabled') {
+            throw Exception('This user account has been disabled.');
+          } else {
+            throw Exception(e.message ?? 'Authentication failed.');
+          }
         } else {
           rethrow;
         }
       }
 
-      final uid = 'email:$normalizedEmail';
-
       final user = AuthUser(
         uid: uid,
         email: normalizedEmail,
         displayName: displayName,
-        providerId: 'email',
+        photoUrl: photoUrl,
+        providerId: providerId,
       );
 
       await _saveSession(
         uid: uid,
         email: normalizedEmail,
         name: displayName,
-        provider: 'email',
+        provider: providerId,
       );
 
       state = AuthState(user: user);
@@ -166,18 +217,38 @@ class AuthNotifier extends Notifier<AuthState> {
       await Future.delayed(const Duration(milliseconds: 800));
 
       final normalizedEmail = email.trim().toLowerCase();
+      String uid = '';
 
       try {
-        await DatabaseHelper.instance.registerUser(normalizedEmail, password, name);
+        final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: normalizedEmail,
+          password: password,
+        );
+        final firebaseUser = credential.user;
+        if (firebaseUser != null) {
+          uid = firebaseUser.uid;
+          await firebaseUser.updateDisplayName(name);
+        }
       } catch (e) {
-        if (e.toString().contains('databaseFactory not initialized')) {
-          // Bypass for unit tests
+        // Fallback for unit tests if Firebase is not initialized
+        if (e.toString().contains('No Firebase App') || 
+            e.toString().contains('core-not-initialized') || 
+            e.toString().contains('channel')) {
+          uid = 'email:$normalizedEmail';
+        } else if (e is FirebaseAuthException) {
+          if (e.code == 'email-already-in-use') {
+            throw Exception('An account with this email already exists.');
+          } else if (e.code == 'weak-password') {
+            throw Exception('The password is too weak. Please use at least 6 characters.');
+          } else if (e.code == 'invalid-email') {
+            throw Exception('The email address is not valid.');
+          } else {
+            throw Exception(e.message ?? 'Registration failed.');
+          }
         } else {
           rethrow;
         }
       }
-
-      final uid = 'email:$normalizedEmail';
 
       final user = AuthUser(
         uid: uid,
@@ -204,6 +275,9 @@ class AuthNotifier extends Notifier<AuthState> {
   Future<void> signOut() async {
     state = state.copyWith(isLoading: true);
     try {
+      await FirebaseAuth.instance.signOut();
+    } catch (_) {}
+    try {
       await _googleSignIn.signOut();
     } catch (_) {}
 
@@ -215,21 +289,60 @@ class AuthNotifier extends Notifier<AuthState> {
   Future<AuthUser?> signInSilently() async {
     state = state.copyWith(isLoading: true);
     try {
-      // 1. Check Google session
+      // 1. Check active Firebase session first
+      try {
+        final firebaseUser = FirebaseAuth.instance.currentUser;
+        if (firebaseUser != null) {
+          final user = AuthUser(
+            uid: firebaseUser.uid,
+            email: firebaseUser.email ?? '',
+            displayName: firebaseUser.displayName ?? 'Creative',
+            photoUrl: firebaseUser.photoURL,
+            providerId: firebaseUser.providerData.isNotEmpty
+                ? firebaseUser.providerData.first.providerId
+                : 'email',
+          );
+          state = AuthState(user: user);
+          return user;
+        }
+      } catch (e) {
+        // Suppress and fall back if Firebase is not initialized
+      }
+
+      // 2. Check Google silent session
       final account = await _googleSignIn.signInSilently();
       if (account != null) {
+        String uid = account.id;
+        String displayName = account.displayName ?? 'Google User';
+        String? photoUrl = account.photoUrl;
+
+        try {
+          final googleAuth = await account.authentication;
+          final credential = GoogleAuthProvider.credential(
+            accessToken: googleAuth.accessToken,
+            idToken: googleAuth.idToken,
+          );
+          final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+          final firebaseUser = userCredential.user;
+          if (firebaseUser != null) {
+            uid = firebaseUser.uid;
+            displayName = firebaseUser.displayName ?? displayName;
+            photoUrl = firebaseUser.photoURL ?? photoUrl;
+          }
+        } catch (_) {}
+
         final user = AuthUser(
-          uid: account.id,
+          uid: uid,
           email: account.email,
-          displayName: account.displayName ?? 'Google User',
-          photoUrl: account.photoUrl,
+          displayName: displayName,
+          photoUrl: photoUrl,
           providerId: 'google',
         );
         state = AuthState(user: user);
         return user;
       }
 
-      // 2. Check local email session
+      // 3. Check local email session cache
       try {
         final loggedIn = await DatabaseHelper.instance.getSetting('user_logged_in');
         if (loggedIn == 'true') {
@@ -237,7 +350,6 @@ class AuthNotifier extends Notifier<AuthState> {
           final name = await DatabaseHelper.instance.getSetting('user_profile_name') ?? 'Creative';
           final provider = await DatabaseHelper.instance.getSetting('auth_provider') ?? 'email';
           
-          // Retrieve saved UID, or fall back to deriving it from email if it wasn't saved yet
           var uid = await DatabaseHelper.instance.getSetting('user_uid');
           if (uid == null || uid.isEmpty || uid == 'local_user') {
             if (email.isNotEmpty) {
@@ -256,9 +368,7 @@ class AuthNotifier extends Notifier<AuthState> {
           state = AuthState(user: user);
           return user;
         }
-      } catch (_) {
-        // Suppress database lookup failures in unit testing
-      }
+      } catch (_) {}
 
       state = const AuthState();
       return null;

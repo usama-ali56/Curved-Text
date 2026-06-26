@@ -4,6 +4,7 @@ import '../../domain/models/project.dart';
 import '../../domain/models/text_layer.dart';
 import '../../domain/models/image_settings.dart';
 import '../../data/database_helper.dart';
+import '../../data/firestore_helper.dart';
 
 class EditorState {
   final Project? project;
@@ -290,6 +291,7 @@ class EditorStateNotifier extends Notifier<EditorState> {
     state = state.copyWith(isSaving: true);
     try {
       await DatabaseHelper.instance.saveProject(project);
+      await FirestoreHelper.instance.saveProject(project);
     } catch (e) {
       // Handle or log error
     } finally {

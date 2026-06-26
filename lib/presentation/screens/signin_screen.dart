@@ -624,42 +624,65 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with TickerProvider
 class GoogleLogoPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final double w = size.width;
-    final double h = size.height;
-    final double cx = w / 2;
-    final double cy = h / 2;
-    final double radius = math.min(w, h) / 2;
+    final double s = size.width / 24.0;
 
-    // Paint segments with correct Google Brand colors
-    final Paint redPaint = Paint()..color = const Color(0xFFEA4335)..style = PaintingStyle.stroke..strokeWidth = radius * 0.45..strokeCap = StrokeCap.square;
-    final Paint yellowPaint = Paint()..color = const Color(0xFFFBBC05)..style = PaintingStyle.stroke..strokeWidth = radius * 0.45..strokeCap = StrokeCap.square;
-    final Paint greenPaint = Paint()..color = const Color(0xFF34A853)..style = PaintingStyle.stroke..strokeWidth = radius * 0.45..strokeCap = StrokeCap.square;
-    final Paint bluePaint = Paint()..color = const Color(0xFF4285F4)..style = PaintingStyle.stroke..strokeWidth = radius * 0.45..strokeCap = StrokeCap.square;
+    final Paint bluePaint = Paint()..color = const Color(0xFF4285F4)..style = PaintingStyle.fill;
+    final Paint greenPaint = Paint()..color = const Color(0xFF34A853)..style = PaintingStyle.fill;
+    final Paint yellowPaint = Paint()..color = const Color(0xFFFBBC05)..style = PaintingStyle.fill;
+    final Paint redPaint = Paint()..color = const Color(0xFFEA4335)..style = PaintingStyle.fill;
 
-    // Adjust stroke rect to keep it within boundaries
-    final Rect strokeRect = Rect.fromCircle(center: Offset(cx, cy), radius: radius - (radius * 0.225));
+    // 1. Blue path
+    final Path bluePath = Path()
+      ..moveTo(22.56 * s, 12.25 * s)
+      ..relativeCubicTo(0 * s, -0.78 * s, -0.07 * s, -1.53 * s, -0.2 * s, -2.25 * s)
+      ..lineTo(12 * s, 10.0 * s)
+      ..relativeLineTo(0, 4.26 * s)
+      ..relativeLineTo(5.92 * s, 0)
+      ..relativeCubicTo(-0.26 * s, 1.37 * s, -1.04 * s, 2.53 * s, -2.21 * s, 3.31 * s)
+      ..relativeLineTo(0, 2.77 * s)
+      ..relativeLineTo(3.57 * s, 0)
+      ..relativeCubicTo(2.08 * s, -1.92 * s, 3.28 * s, -4.74 * s, 3.28 * s, -8.09 * s)
+      ..close();
+    canvas.drawPath(bluePath, bluePaint);
 
-    // 1. Red top segment
-    canvas.drawArc(strokeRect, -math.pi * 0.8, math.pi * 0.55, false, redPaint);
-    // 2. Yellow left segment
-    canvas.drawArc(strokeRect, -math.pi * 1.35, math.pi * 0.55, false, yellowPaint);
-    // 3. Green bottom segment
-    canvas.drawArc(strokeRect, math.pi * 0.2, math.pi * 0.55, false, greenPaint);
-    // 4. Blue right segment & horizontal bar
-    canvas.drawArc(strokeRect, -math.pi * 0.25, math.pi * 0.45, false, bluePaint);
+    // 2. Green path
+    final Path greenPath = Path()
+      ..moveTo(12 * s, 23 * s)
+      ..relativeCubicTo(2.97 * s, 0, 5.46 * s, -0.98 * s, 7.28 * s, -2.66 * s)
+      ..relativeLineTo(-3.57 * s, -2.77 * s)
+      ..relativeCubicTo(-0.98 * s, 0.66 * s, -2.23 * s, 1.06 * s, -3.71 * s, 1.06 * s)
+      ..relativeCubicTo(-2.86 * s, 0, -5.29 * s, -1.93 * s, -6.16 * s, -4.53 * s)
+      ..lineTo(2.18 * s, 14.1 * s)
+      ..relativeLineTo(0, 2.84 * s)
+      ..cubicTo(3.99 * s, 20.53 * s, 7.7 * s, 23 * s, 12 * s, 23 * s)
+      ..close();
+    canvas.drawPath(greenPath, greenPaint);
 
-    // Draw the horizontal bar of the 'G'
-    final Paint barPaint = Paint()
-      ..color = const Color(0xFF4285F4)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = radius * 0.43
-      ..strokeCap = StrokeCap.butt;
-    
-    canvas.drawLine(
-      Offset(cx + radius * 0.1, cy),
-      Offset(cx + radius * 0.85, cy),
-      barPaint,
-    );
+    // 3. Yellow path
+    final Path yellowPath = Path()
+      ..moveTo(5.84 * s, 14.09 * s)
+      ..relativeCubicTo(-0.22 * s, -0.66 * s, -0.35 * s, -1.36 * s, -0.35 * s, -2.09 * s)
+      ..relativeCubicTo(0 * s, -0.73 * s, 0.13 * s, -1.43 * s, 0.35 * s, -2.09 * s)
+      ..lineTo(5.84 * s, 7.07 * s)
+      ..lineTo(2.18 * s, 7.07 * s)
+      ..cubicTo(1.43 * s, 8.55 * s, 1.0 * s, 10.22 * s, 1.0 * s, 12.0 * s)
+      ..relativeCubicTo(0 * s, 1.78 * s, 0.43 * s, 3.45 * s, 1.18 * s, 4.93 * s)
+      ..relativeLineTo(2.85 * s, -2.22 * s)
+      ..relativeLineTo(0.81 * s, -0.62 * s)
+      ..close();
+    canvas.drawPath(yellowPath, yellowPaint);
+
+    // 4. Red path
+    final Path redPath = Path()
+      ..moveTo(12 * s, 5.38 * s)
+      ..relativeCubicTo(1.62 * s, 0, 3.06 * s, 0.56 * s, 4.21 * s, 1.64 * s)
+      ..relativeLineTo(3.15 * s, -3.15 * s)
+      ..cubicTo(17.45 * s, 2.09 * s, 14.97 * s, 1.0 * s, 12 * s, 1.0 * s)
+      ..cubicTo(7.7 * s, 1.0 * s, 3.99 * s, 3.47 * s, 2.18 * s, 7.07 * s)
+      ..relativeLineTo(3.66 * s, 2.84 * s)
+      ..relativeCubicTo(0.87 * s, -2.6 * s, 3.3 * s, -4.53 * s, 6.16 * s, -4.53 * s)
+      ..close();
+    canvas.drawPath(redPath, redPaint);
   }
 
   @override

@@ -1,4 +1,4 @@
-package com.curvetype.curvetype
+package com.usama.curvetype
 
 import io.flutter.embedding.android.FlutterActivity
 

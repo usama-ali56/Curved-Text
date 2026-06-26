@@ -11,6 +11,7 @@ import '../../domain/models/project.dart';
 import '../../domain/models/text_layer.dart';
 import '../../domain/models/image_settings.dart';
 import '../../data/database_helper.dart';
+import '../../data/firestore_helper.dart';
 import '../state/editor_state.dart';
 import '../state/theme_state.dart';
 import '../state/auth_state.dart';
@@ -33,7 +34,20 @@ class ProjectsListNotifier extends Notifier<AsyncValue<List<Project>>> {
     try {
       final user = ref.read(authProvider).user;
       final userId = user?.uid ?? 'local_user';
-      final list = await DatabaseHelper.instance.getProjectsForUser(userId);
+      
+      // 1. Fetch latest projects from Cloud Firestore
+      List<Project> list = await FirestoreHelper.instance.getProjectsForUser(userId);
+      
+      // 2. Fallback to local SQLite if cloud is empty (or offline with empty cache)
+      if (list.isEmpty) {
+        list = await DatabaseHelper.instance.getProjectsForUser(userId);
+      } else {
+        // 3. Cache the retrieved cloud projects locally in SQLite for instant offline access
+        for (final project in list) {
+          await DatabaseHelper.instance.saveProject(project);
+        }
+      }
+      
       state = AsyncValue.data(list);
     } catch (e, stack) {
       state = AsyncValue.error(e, stack);
@@ -49,7 +63,11 @@ class ProjectsListNotifier extends Notifier<AsyncValue<List<Project>>> {
           await file.delete();
         }
       }
+      // Delete from local SQLite
       await DatabaseHelper.instance.deleteProject(id);
+      // Delete from Cloud Firestore
+      await FirestoreHelper.instance.deleteProject(id);
+      
       refresh();
     } catch (e) {
       // Log or handle delete failure
@@ -64,7 +82,11 @@ class ProjectsListNotifier extends Notifier<AsyncValue<List<Project>>> {
           name: newName,
           updatedAt: DateTime.now(),
         );
+        // Save locally
         await DatabaseHelper.instance.saveProject(updated);
+        // Sync to cloud
+        await FirestoreHelper.instance.saveProject(updated);
+        
         refresh();
       }
     } catch (e) {
@@ -101,7 +123,11 @@ class ProjectsListNotifier extends Notifier<AsyncValue<List<Project>>> {
           userId: userId,
         );
 
+        // Save locally
         await DatabaseHelper.instance.saveProject(duplicated);
+        // Sync to cloud
+        await FirestoreHelper.instance.saveProject(duplicated);
+        
         refresh();
       }
     } catch (e) {
@@ -145,7 +171,11 @@ class ProjectsListNotifier extends Notifier<AsyncValue<List<Project>>> {
       userId: userId,
     );
 
+    // Save locally
     await DatabaseHelper.instance.saveProject(project);
+    // Sync to cloud
+    await FirestoreHelper.instance.saveProject(project);
+    
     refresh();
     return project;
   }

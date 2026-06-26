@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'data/database_seeder.dart';
 import 'presentation/screens/splash_screen.dart';
 import 'presentation/state/theme_state.dart';
@@ -8,6 +10,11 @@ import 'presentation/state/theme_state.dart';
 void main() async {
   // Ensure Flutter engine bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Firebase connection
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   
   // Seed default sample projects if first launch
   await DatabaseSeeder.seedIfNecessary();
