@@ -1,10 +1,3 @@
-// CurveType: Premium Kinetic Typography Studio in Flutter.
-// This line was added on the feature/git-lesson branch.
-//asasassaasasas
-//kpskxojcksjcjskcjskjckscsj
-//usama
-//Sana Ullah
-//aa
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,7 +7,6 @@ import 'presentation/state/theme_state.dart';
 
 void main() async {
   // Ensure Flutter engine bindings are initialized
-  // This is my Change
   WidgetsFlutterBinding.ensureInitialized();
   
   // Seed default sample projects if first launch
@@ -39,7 +31,6 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       themeMode: themeMode,
       
-      // CurveType Custom Visual Accent Configuration
       // Light Mode Theme
       theme: ThemeData(
         brightness: Brightness.light,
