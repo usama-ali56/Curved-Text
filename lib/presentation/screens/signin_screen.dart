@@ -22,9 +22,15 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with TickerProvider
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _otpController = TextEditingController();
 
   bool _isSignUp = false; // Toggle between Sign In and Sign Up
   bool _obscurePassword = true;
+
+  bool _isPhoneMode = false;
+  bool _codeSent = false;
+  String? _verificationId;
 
   @override
   void initState() {
@@ -57,6 +63,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with TickerProvider
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _phoneController.dispose();
+    _otpController.dispose();
     super.dispose();
   }
 
@@ -112,6 +120,70 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with TickerProvider
     }
   }
 
+  void _handleSendCode() async {
+    if (!_formKey.currentState!.validate()) return;
+    
+    final phone = _phoneController.text.trim();
+    
+    try {
+      await ref.read(authProvider.notifier).verifyPhoneNumber(
+        phone,
+        onCodeSent: (verificationId) {
+          if (mounted) {
+            setState(() {
+              _verificationId = verificationId;
+              _codeSent = true;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Verification code sent to $phone',
+                  style: GoogleFonts.outfit(color: Colors.white),
+                ),
+                backgroundColor: Colors.green,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+            );
+          }
+        },
+        onError: (error) {
+          if (mounted) {
+            _showErrorSnackBar(error);
+          }
+        },
+      );
+    } catch (e) {
+      if (mounted) {
+        _showErrorSnackBar(e.toString().replaceFirst('Exception: ', ''));
+      }
+    }
+  }
+
+  void _handleVerifyCode() async {
+    if (!_formKey.currentState!.validate()) return;
+    
+    final otp = _otpController.text.trim();
+    if (_verificationId == null) {
+      _showErrorSnackBar('No verification session found. Please request a new code.');
+      return;
+    }
+
+    try {
+      final user = await ref.read(authProvider.notifier).signInWithPhoneNumber(_verificationId!, otp);
+      if (user != null && mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const DashboardScreen()),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        _showErrorSnackBar(e.toString().replaceFirst('Exception: ', ''));
+      }
+    }
+  }
+
   void _showErrorSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -126,13 +198,32 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with TickerProvider
     );
   }
 
-  void _toggleAuthMode() {
+  void _togglePhoneMode() {
     setState(() {
-      _isSignUp = !_isSignUp;
+      _isPhoneMode = !_isPhoneMode;
+      _codeSent = false;
+      _verificationId = null;
       _formKey.currentState?.reset();
       _nameController.clear();
       _emailController.clear();
       _passwordController.clear();
+      _phoneController.clear();
+      _otpController.clear();
+    });
+  }
+
+  void _toggleAuthMode() {
+    setState(() {
+      _isSignUp = !_isSignUp;
+      _isPhoneMode = false;
+      _codeSent = false;
+      _verificationId = null;
+      _formKey.currentState?.reset();
+      _nameController.clear();
+      _emailController.clear();
+      _passwordController.clear();
+      _phoneController.clear();
+      _otpController.clear();
     });
   }
 
@@ -291,10 +382,11 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with TickerProvider
                           ),
                         ),
                         const SizedBox(height: 16),
-
                         // Title Text
                         Text(
-                          _isSignUp ? 'Create Account' : 'Welcome Back',
+                          _isPhoneMode
+                              ? (_codeSent ? 'Verify OTP' : 'Phone Sign In')
+                              : (_isSignUp ? 'Create Account' : 'Welcome Back'),
                           style: GoogleFonts.outfit(
                             fontSize: 32,
                             fontWeight: FontWeight.w800,
@@ -305,7 +397,13 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with TickerProvider
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          _isSignUp ? 'Sign up to start designing in motion.' : 'Sign in to access your typography studio.',
+                          _isPhoneMode
+                              ? (_codeSent
+                                  ? 'Enter the 6-digit code sent to ${_phoneController.text}.'
+                                  : 'Enter your phone number to sign in securely.')
+                              : (_isSignUp
+                                  ? 'Sign up to start designing in motion.'
+                                  : 'Sign in to access your typography studio.'),
                           style: GoogleFonts.outfit(
                             fontSize: 14,
                             color: _secondaryTextColor,
@@ -314,78 +412,116 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with TickerProvider
                         ),
                         const SizedBox(height: 24),
 
-                        // Email / Password Form
+                        // Input Form
                         Form(
                           key: _formKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              // 1. Name Field (Sign Up Only)
-                              if (_isSignUp) ...[
+                              if (_isPhoneMode) ...[
+                                if (!_codeSent) ...[
+                                  // Phone Number Input
+                                  _buildTextField(
+                                    controller: _phoneController,
+                                    hintText: 'Phone Number (e.g. +15555555555)',
+                                    icon: Icons.phone_android_rounded,
+                                    keyboardType: TextInputType.phone,
+                                    validator: (val) {
+                                      if (val == null || val.trim().isEmpty) {
+                                        return 'Please enter your phone number';
+                                      }
+                                      if (!val.trim().startsWith('+')) {
+                                        return 'Include country code starting with +';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ] else ...[
+                                  // SMS OTP Code Input
+                                  _buildTextField(
+                                    controller: _otpController,
+                                    hintText: '6-digit SMS Verification Code',
+                                    icon: Icons.pin_rounded,
+                                    keyboardType: TextInputType.number,
+                                    validator: (val) {
+                                      if (val == null || val.trim().isEmpty) {
+                                        return 'Please enter the verification code';
+                                      }
+                                      if (val.trim().length != 6) {
+                                        return 'Verification code must be 6 digits';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ],
+                              ] else ...[
+                                // 1. Name Field (Sign Up Only)
+                                if (_isSignUp) ...[
+                                  _buildTextField(
+                                    controller: _nameController,
+                                    hintText: 'Full Name',
+                                    icon: Icons.person_outline_rounded,
+                                    validator: (val) {
+                                      if (val == null || val.trim().isEmpty) {
+                                        return 'Please enter your name';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  const SizedBox(height: 14),
+                                ],
+
+                                // 2. Email Field
                                 _buildTextField(
-                                  controller: _nameController,
-                                  hintText: 'Full Name',
-                                  icon: Icons.person_outline_rounded,
+                                  controller: _emailController,
+                                  hintText: 'Email Address',
+                                  icon: Icons.email_outlined,
+                                  keyboardType: TextInputType.emailAddress,
                                   validator: (val) {
                                     if (val == null || val.trim().isEmpty) {
-                                      return 'Please enter your name';
+                                      return 'Please enter your email';
+                                    }
+                                    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
+                                    if (!emailRegex.hasMatch(val.trim())) {
+                                      return 'Please enter a valid email address';
                                     }
                                     return null;
                                   },
                                 ),
                                 const SizedBox(height: 14),
-                              ],
 
-                              // 2. Email Field
-                              _buildTextField(
-                                controller: _emailController,
-                                hintText: 'Email Address',
-                                icon: Icons.email_outlined,
-                                keyboardType: TextInputType.emailAddress,
-                                validator: (val) {
-                                  if (val == null || val.trim().isEmpty) {
-                                    return 'Please enter your email';
-                                  }
-                                  final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
-                                  if (!emailRegex.hasMatch(val.trim())) {
-                                    return 'Please enter a valid email address';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 14),
-
-                              // 3. Password Field
-                              _buildTextField(
-                                controller: _passwordController,
-                                hintText: 'Password',
-                                icon: Icons.lock_outline_rounded,
-                                obscureText: _obscurePassword,
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                                    color: _secondaryTextColor,
-                                    size: 20,
+                                // 3. Password Field
+                                _buildTextField(
+                                  controller: _passwordController,
+                                  hintText: 'Password',
+                                  icon: Icons.lock_outline_rounded,
+                                  obscureText: _obscurePassword,
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                                      color: _secondaryTextColor,
+                                      size: 20,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _obscurePassword = !_obscurePassword;
+                                      });
+                                    },
                                   ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _obscurePassword = !_obscurePassword;
-                                    });
+                                  validator: (val) {
+                                    if (val == null || val.isEmpty) {
+                                      return 'Please enter a password';
+                                    }
+                                    if (val.length < 6) {
+                                      return 'Password must be at least 6 characters';
+                                    }
+                                    return null;
                                   },
                                 ),
-                                validator: (val) {
-                                  if (val == null || val.isEmpty) {
-                                    return 'Please enter a password';
-                                  }
-                                  if (val.length < 6) {
-                                    return 'Password must be at least 6 characters';
-                                  }
-                                  return null;
-                                },
-                              ),
+                              ],
                               const SizedBox(height: 24),
 
-                              // 4. Primary Submit Button (SIGN IN / SIGN UP)
+                              // 4. Primary Submit Button
                               Container(
                                 height: 56,
                                 decoration: BoxDecoration(
@@ -399,7 +535,11 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with TickerProvider
                                   ],
                                 ),
                                 child: ElevatedButton(
-                                  onPressed: isLoading ? null : _handleSubmit,
+                                  onPressed: isLoading
+                                      ? null
+                                      : (_isPhoneMode
+                                          ? (_codeSent ? _handleVerifyCode : _handleSendCode)
+                                          : _handleSubmit),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFFE2D1C3),
                                     foregroundColor: const Color(0xFF3A3530),
@@ -418,7 +558,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with TickerProvider
                                           ),
                                         )
                                       : Text(
-                                          _isSignUp ? 'CREATE ACCOUNT' : 'SIGN IN',
+                                          _isPhoneMode
+                                              ? (_codeSent ? 'VERIFY & SIGN IN' : 'SEND CODE')
+                                              : (_isSignUp ? 'CREATE ACCOUNT' : 'SIGN IN'),
                                           style: GoogleFonts.outfit(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
@@ -427,6 +569,57 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with TickerProvider
                                         ),
                                 ),
                               ),
+                              if (_isPhoneMode) ...[
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    if (_codeSent)
+                                      TextButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _codeSent = false;
+                                            _otpController.clear();
+                                          });
+                                        },
+                                        child: Text(
+                                          'Edit Phone Number',
+                                          style: GoogleFonts.outfit(
+                                            color: const Color(0xFFE2D1C3),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      )
+                                    else
+                                      const SizedBox.shrink(),
+                                    TextButton(
+                                      onPressed: _togglePhoneMode,
+                                      child: Text(
+                                        'Use Email Login',
+                                        style: GoogleFonts.outfit(
+                                          color: const Color(0xFFE2D1C3),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ] else ...[
+                                const SizedBox(height: 10),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: TextButton(
+                                    onPressed: _togglePhoneMode,
+                                    child: Text(
+                                      'Login with Phone Number',
+                                      style: GoogleFonts.outfit(
+                                        color: const Color(0xFFE2D1C3),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ],
                           ),
                         ),
