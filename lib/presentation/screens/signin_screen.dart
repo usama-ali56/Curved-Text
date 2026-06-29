@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/curved_text_painter.dart';
 import '../state/auth_state.dart';
 import 'dashboard_screen.dart';
+import 'terms_and_privacy_screen.dart';
 
 class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -741,13 +742,34 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with TickerProvider
                           const SizedBox(height: 12),
 
                           // Terms disclaimer
-                          Text(
-                            'By continuing, you agree to our Terms and Privacy Policy.',
-                            style: GoogleFonts.outfit(
-                              fontSize: 11,
-                              color: _secondaryTextColor,
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const TermsAndPrivacyScreen()),
+                              );
+                            },
+                            child: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                text: 'By continuing, you agree to our ',
+                                style: GoogleFonts.outfit(
+                                  fontSize: 11,
+                                  color: _secondaryTextColor,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: 'Terms and Privacy Policy.',
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 11,
+                                      color: const Color(0xFFE2D1C3),
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
